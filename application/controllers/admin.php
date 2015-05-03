@@ -80,7 +80,7 @@ class Admin extends CI_Controller {
 	{
 		return $this->data;
 	}
-	
+
 	public function index()
 	{
 		$this->news();
@@ -344,5 +344,100 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	public function video()
+	{
+		try{
+		
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_video');
+			$crud->set_subject('Video');
+			
+			$state = $crud->getState();
+			
+			$crud->set_relation('modified_by', 'tbl_user', 'email');
+			
+			//if($state == 'edit' or $state == 'add')
+			//{
+			//	$crud->set_relation('title_id','tbl_video','embed');
+			//}
+			
+			$crud->required_fields('title_id', 'title_en', 'embed');
+			$crud->unique_fields('title_id','embed');
+			
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'embed', 'modified_by', 'modified_date');
+			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'embed', 'modified_by', 'modified_date');
+			$crud->columns('title_id', 'text_id', 'embed', 'modified_by');
+			
+			$crud->display_as('title_id', 'Judul (Bahasa)')
+				 ->display_as('title_en', 'Judul (English)')
+				 ->display_as('text_id', 'Deskripsi (Bahasa)')
+				 ->display_as('text_en', 'Deskripsi (English')
+				 ->display_as('Embed', 'Link')
+				 ->display_as('modified_by', 'Input / Edit Tanggal')
+				 ;
+				 
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			$crud->unset_read();
+			if($crud->state = "list")
+			$crud->order_by('id_video','desc');
+			
+			$video = $this->get_sitemap();
+			
+			$output = $crud->render($video);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
 	
+	public function artikel()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_article');
+			$crud->set_subject('Artikel');
+			$crud->set_relation('modified_by','tbl_user','email');
+			$crud->set_field_upload('file','assets/uploads/files');
+			
+			$crud->required_fields('title_id', 'title_en', 'text_id', 'text_en');
+			
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'modified_by', 'modified_date');
+			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'modified_by', 'modified_date');
+			$crud->display_as('title_id','Judul (Indonesia)')
+				 ->display_as('title_en','Judul (English)')
+				 ->display_as('text_id','Isi (Indonesia)')
+				 ->display_as('text_en','Isi (English)')
+				 ->display_as('file','Berkas')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('title_id', 'title_en', 'text_id', 'text_en');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			
+			$crud->order_by('id_article','desc');
+			$crud->unset_read();
+			
+			$artikel = $this->get_sitemap();
+			
+			$output = $crud->render($artikel);
+			$this->load->view('admin/themes/default', $output);
+
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
 }
