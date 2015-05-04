@@ -418,7 +418,7 @@ class Admin extends CI_Controller {
 				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
 				 ;
-			$crud->columns('title_id', 'title_en', 'text_id', 'text_en');
+			$crud->columns('title_id', 'title_en', 'text_id', 'text_en','modified_by');
 			
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));
@@ -435,6 +435,153 @@ class Admin extends CI_Controller {
 			$output = $crud->render($artikel);
 			$this->load->view('admin/themes/default', $output);
 
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function KategoriHukum()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_laws_category');
+			$crud->set_subject('Kategori Hukum');
+			$crud->set_relation('modified_by','tbl_user','email');
+			
+			$crud->required_fields('laws_category_id');
+			
+			$crud->add_fields('laws_category_id', 'laws_category_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('laws_category_id', 'laws_category_en', 'modified_by', 'modified_date');
+			$crud->display_as('laws_category_id','Kategori Hukum (Indonesia)')
+				 ->display_as('laws_category_en','Kategori Hukum (English)')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('laws_category_id', 'laws_category_en','modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			
+			$crud->order_by('id_laws_category','desc');
+			$crud->unset_read();
+			
+			$kategori = $this->get_sitemap();
+			
+			$output = $crud->render($kategori);
+			$this->load->view('admin/themes/default', $output);
+
+			
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	
+	public function Hukum()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_laws');
+			$crud->set_subject('Hukum');
+			
+			$state = $crud->getState();
+			
+			$crud->set_relation('modified_by', 'tbl_user', 'email');
+			
+			//if($state == 'edit' or $state == 'add')
+			//{
+			//	$crud->set_relation('laws_id','tbl_laws','embed');
+			//}
+			
+			$crud->required_fields('laws_id', 'laws_en');
+			
+			$crud->add_fields('laws_id', 'laws_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('laws_id', 'laws_en', 'modified_by', 'modified_date');
+			$crud->columns('laws_id', 'laws_en', 'modified_by');
+			
+			$crud->display_as('laws_id', 'Judul (Bahasa)')
+				 ->display_as('laws_en', 'Judul (English)')
+				 ->display_as('modified_by', 'Input / Edit Tanggal')
+				 ;
+				 
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			$crud->unset_read();
+			if($crud->state = "list")
+			$crud->order_by('id_laws','desc');
+			
+			$hukum = $this->get_sitemap();
+			
+			$output = $crud->render($hukum);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+
+	
+	public function Publikasi()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_publication');
+			$crud->set_subject('Publikasi');
+			
+			$state = $crud->getState();
+			
+			$crud->set_relation('midified_by', 'tbl_user', 'email');
+			
+			//if($state == 'edit' or $state == 'add')
+			//{
+			//	$crud->set_relation('laws_id','tbl_laws','embed');
+			//}
+			
+			
+			$crud->set_field_upload('cover','assets/uploads/picture');			
+			$crud->set_field_upload('file','assets/uploads/files');
+			
+			$crud->required_fields('publication_date', 'title_id','title_en');
+			
+			$crud->add_fields('publication_date', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'midified_by', 'modified_date');
+			$crud->edit_fields('publication_date', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'midified_by', 'modified_date');
+			$crud->columns('publication_date', 'title_id', 'title_en', 'midified_by');
+			
+			$crud->display_as('publication_date', 'Tanggal Publikasi')
+				 ->display_as('title_id', 'Judul (Bahasa)')
+				 ->display_as('title_en', 'Judul (English)')
+				 ->display_as('midified_by', 'Input / Edit Tanggal')
+				 ;
+				 
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('midified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			$crud->unset_read();
+			if($crud->state = "list")
+			$crud->order_by('id_publication','desc');
+			
+			$publikasi = $this->get_sitemap();
+			
+			$output = $crud->render($publikasi);
+			
+			$this->load->view('admin/themes/default', $output);
 		}catch(Execption $e)
 		{
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
