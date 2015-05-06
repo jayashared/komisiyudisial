@@ -587,4 +587,136 @@ class Admin extends CI_Controller {
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
 	}
+	
+	public function lelang()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_procurement');
+			$crud->set_subject('Lelang');
+			$crud->set_relation('midified_by','tbl_user','email');
+			
+			$crud->set_field_upload('file','assets/uploads/files');
+			
+			$crud->required_fields('title_id','title_en');
+			
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'midified_by', 'modified_date');
+			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'midified_by', 'modified_date');
+			
+			$crud->display_as('title_id','Judul (Indonesia)')
+				 ->display_as('title_en','Judul (English)')
+				 ->display_as('midified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('title_id', 'title_en','modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('midified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			
+			$crud->order_by('id_procurement','desc');
+			$crud->unset_read();
+			
+			$lelang = $this->get_sitemap();
+			
+			$output = $crud->render($lelang);
+			$this->load->view('admin/themes/default', $output);
+
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function KontenStatis()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_static_content');
+			$crud->set_subject('Konten Statis');
+			$crud->set_relation('modified_by','tbl_user','email');
+			
+			$crud->required_fields('title_id','title_en');
+			
+			$crud->add_fields('static_content', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('static_content', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
+			
+			$crud->display_as('static_content','Konten Statis')
+				 ->display_as('title_id','Judul (Indonesia)')
+				 ->display_as('title_en','Judul (English)')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('static_content', 'title_id', 'title_en','modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			
+			$crud->order_by('id_static_content','desc');
+			$crud->unset_read();
+			
+			$kontenstatis = $this->get_sitemap();
+			
+			$output = $crud->render($kontenstatis);
+			$this->load->view('admin/themes/default', $output);
+		}catch(execption $e)
+		{
+			show_error($e->getMessage().''.$e->getTraceAsString());
+		}
+		
+	}
+	
+	public function PersRelease()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_pers_release');
+			$crud->set_subject('Pers Release');
+			$crud->set_relation('midified_by','tbl_user','email');
+			
+			$crud->set_field_upload('file','assets/uploads/files');
+			
+			$crud->required_fields('title_id','title_en');
+			
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'midified_by', 'modified_date');
+			$crud->edit_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'midified_by', 'modified_date');
+			
+			$crud->display_as('title_id','Judul (Indonesia)')
+				 ->display_as('title_en','Judul (English)')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('title_id', 'title_en','modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('midified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			
+			$crud->order_by('id_pers_release','desc');
+			$crud->unset_read();
+			
+			$persrelease = $this->get_sitemap();
+			
+			$output = $crud->render($persrelease);
+			$this->load->view('admin/themes/default', $output);
+			
+		}catch(execption $e)
+		{
+			show_error($e->getMessage().''.$e->getTraceAsString());
+		}
+	}
+	
 }
