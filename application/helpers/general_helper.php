@@ -34,8 +34,11 @@
 	
 	function TglOnlyIndo($tgl)
 	{
+			
+		$tgl_arr = explode(" ", $tgl);
+		
 		$bulan		= array("Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des");
-		$tgl		= explode("-", $tgl);
+		$tgl		= explode("-", $tgl_arr[0]);
 		$b			= intval($tgl[1])-1>=0?intval($tgl[1])-1:0;
 		$tgl		= $tgl[2] . " " . $bulan[$b] . " " . $tgl[0];
 

@@ -496,19 +496,20 @@ class Admin extends CI_Controller {
 			
 			$crud->set_relation('modified_by', 'tbl_user', 'email');
 			
-			//if($state == 'edit' or $state == 'add')
-			//{
-			//	$crud->set_relation('laws_id','tbl_laws','embed');
-			//}
+			if($state == 'edit' or $state == 'add')
+			{
+				$crud->set_relation('id_laws_category','tbl_laws_category','laws_category_id');
+			}
 			
 			$crud->required_fields('laws_id', 'laws_en');
 			
-			$crud->add_fields('laws_id', 'laws_en', 'modified_by', 'modified_date');
-			$crud->edit_fields('laws_id', 'laws_en', 'modified_by', 'modified_date');
+			$crud->add_fields('id_laws_category', 'laws_id', 'laws_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_laws_category', 'laws_id', 'laws_en', 'modified_by', 'modified_date');
 			$crud->columns('laws_id', 'laws_en', 'modified_by');
 			
 			$crud->display_as('laws_id', 'Judul (Bahasa)')
 				 ->display_as('laws_en', 'Judul (English)')
+				 ->display_as('id_laws_category', 'Kategori')
 				 ->display_as('modified_by', 'Input / Edit Tanggal')
 				 ;
 				 

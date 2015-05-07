@@ -18,4 +18,18 @@ class News_m  extends CI_Model  {
 		return $query->result();
 	}
 	
+	function get_list($limit=0, $offset=0)
+	{
+		$this->db->order_by("id_news desc");
+		$this->db->limit($limit, $offset);
+		$query = $this->db->get($this->table_name);
+		//echo $this->db->last_query();
+		return $query->result();
+	}
+	
+	function get_count()
+	{
+		return $this->db->count_all_results($this->table_name);
+	}
+	
 }

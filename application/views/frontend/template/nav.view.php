@@ -23,7 +23,7 @@
               <a href="#"><?php echo $row->title_id ?></a>
               <ul class="sub">
                 <?php foreach( $row->sub_sitemap as $r ){ ?>
-                	<li><a href="<?php echo $r->url ?>"><?php echo $r->title_id ?></a></li>
+                	<li><a href="<?php echo base_url() . $r->url ?>"><?php echo $r->title_id ?></a></li>
                 <?php } ?>
               </ul>
             </li>	
@@ -32,7 +32,7 @@
 			else
 			{
 		?>
-        	<li class=""><a href="<?php echo base_url() . "frontend." . $row->url ?>"><?php echo $row->title_id ?></a></li>
+        	<li class=""><a href="<?php echo base_url() . $row->url ?>"><?php echo $row->title_id ?></a></li>
         <?php
 			}
 		?>

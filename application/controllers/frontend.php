@@ -52,4 +52,90 @@ class Frontend extends CI_Controller {
 		return $this->data;
 	}
 	
+	public function paging($pag=array())
+	{
+		$config['base_url'] = $pag["url"];
+		$config['total_rows'] = $pag["total_rows"];
+		$config['per_page'] = $pag["per_page"]; 
+		$config['page_query_string'] = TRUE;
+		$config['use_page_numbers'] = TRUE;
+		$config['query_string_segment'] = "page";
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li class="active"><a href="#">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['next_link'] = '&gt;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['last_link'] = 'Akhir';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		$config['first_link'] = 'Awal';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['anchor_class'] = 'class="page"';
+		$this->pagination->initialize($config);	
+		return $this->pagination->create_links();
+	}
+	
+	public function static_content($static_content = NULL)
+	{
+		$this->load->model("static_content_m");
+		$where = array("static_content"=>$static_content);
+		$static_content = $this->static_content_m->display($where);
+		
+		$data["static_content"] = $static_content;
+		/* Wajib */
+		$data["sitemap"] = $this->get_sitemap();
+		$data["content"] = "frontend/pages/static-content.view.php";
+		$this->load->view('frontend/index', $data);
+		/* Wajib */
+	}
+	
+	public function news()
+	{
+		try
+		{
+			
+			$this->load->model("news_m");
+			
+			$page = $this->input->get("page");
+			$page = !empty($page)?$page:1;
+			$limit = 10;
+			
+			if(isset($page) and !empty($page)):
+				$offset = ($page * $limit) - $limit;
+			else:
+				$offset = 0;
+			endif;
+			
+			// Paging
+			$total_row =  $this->news_m->get_count();
+			$url = base_url() . "frontend/news/?paging=true";
+			$data_paging = array(
+				"url"=>$url,
+				"total_rows"=>$total_row,
+				"per_page"=>$limit,
+				"halaman"=>$page
+			);
+			
+			$news = $this->news_m->get_list($limit, $offset);
+			
+			$data["paging"] = $this->paging($data_paging);
+			$data["page"] = $page;
+			
+			$data["news"] = $news;
+			
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/news-list.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+	}
+	
 }
