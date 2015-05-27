@@ -9,15 +9,15 @@
 
 <section id="main">
   <article class="content">
-  	
-    <!--Agenda-->
-    	<?php $this->load->view("frontend/pages/home-agenda.view.php") ?>
-    <!--Agenda-->
     
     <div class="cm-padding-bottom-36"></div>
-    <!--Announcement-->
-    	<?php $this->load->view("frontend/pages/home-announcement.view.php") ?>
-    <!--Announcement-->
+    <?php $this->load->view("frontend/pages/home-part-2.view.php") ?>
+    <hr class="double">
+   	<?php $this->load->view("frontend/pages/home-part-1.view.php") ?>
+    <hr class="double">
+	<?php $this->load->view("frontend/pages/home-part-4.view.php") ?>
+	<?php $this->load->view("frontend/pages/home-part-3.view.php") ?>
+    
       
   </article>
 </section><!-- #main -->

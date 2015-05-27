@@ -3,15 +3,16 @@
     <div class="container">           
       <div class="row">
 		<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
-		  <div class="logox">
+		  <div class="logo">
 			<a href="<?php echo base_url() ?>frontend">
 			  <img src="<?php echo base_url() ?>assets/images/logo-ky.png" class="logo-img" alt="">
 			</a>
 		  </div>
 		</div><!-- .logo-box -->
-        
+      
 		<div class="col-xs-6 col-md-10 col-lg-9 right-box">
-		  <div class="right-box-wrapper">    
+          <div class="right-box-wrapper">    
+          
             <div class="header-icons">
 			  <div class="search-header hidden-600">
 				<a href="#">
@@ -24,13 +25,18 @@
 				</a>
 			  </div>
 			</div><!-- .header-icons -->
-			
 			<div class="primary">
 				<?php $this->load->view("frontend/template/nav.view.php") ?>
 			</div><!-- .primary -->
 		  </div>
 		</div>
 		
+        <div style="float:right; position:absolute; right:30px; top:10px; z-index:100000000">
+            <span class="label label-warning set-lang">ID</span>
+            <span class="label label-warning set-lang">EN</span>
+        </div>
+        
+        
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>×</a>
 		  <form name="search-form" class="search-form">
@@ -55,4 +61,17 @@
     <marquee> News Ticker </marquee>	
   </div>
 </div><!-- .breadcrumb-box -->
+<style>
+	.set-lang{ cursor:pointer; }
+</style>
 
+<script>
+	$(".set-lang").mouseover(function(e) {
+        $(".set-lang").removeClass("label-danger");
+		$(this).addClass("label-danger");
+    });
+	$(".set-lang").click(function(e) {
+        var lang = $(this).text();
+		location.href = "<?php echo base_url() ?>frontend/set_lang/" + lang + "?curl=<?php echo current_url(); ?>";
+    });
+</script>

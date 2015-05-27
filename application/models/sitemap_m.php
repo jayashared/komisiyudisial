@@ -27,4 +27,13 @@ class Sitemap_m  extends CI_Model  {
 		$query = $this->db->get("view_tbl_sitemap");		
 		return $query->result();
 	}
+	
+	function get_frontend_footer_sitemap($where)
+	{
+		!empty($where)?$this->db->where($where):"";
+		$this->db->like("sitemap_code", "03.", "after");
+		$this->db->order_by("sort_no");
+		$query = $this->db->get("view_tbl_sitemap");		
+		return $query->result();
+	}
 }

@@ -93,13 +93,16 @@ class Admin extends CI_Controller {
 			$crud = new grocery_CRUD();
 			$crud->set_table('tbl_news');
 			$crud->set_subject('Berita');
+			
 			$crud->set_relation('modified_by','tbl_user','email');
+			$crud->set_relation('id_news_category','tbl_news_category','news_category_id');
+			
 			$crud->set_field_upload('picture','assets/uploads/picture');
 			
 			$crud->required_fields('date', 'title_id', 'title_en', 'text_id', 'text_en');
 			
-			$crud->add_fields('date', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'modified_by', 'modified_date');
-			$crud->edit_fields('date', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'modified_by', 'modified_date');
+			$crud->add_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en', 'modified_by', 'modified_date');
 			$crud->display_as('date','Tanggal')
 				 ->display_as('title_id','Judul (Indonesia)')
 				 ->display_as('title_en','Judul (English)')
@@ -108,8 +111,9 @@ class Admin extends CI_Controller {
 				 ->display_as('picture','Gambar (jpg, png)')
 				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ->display_as('id_news_category', 'Kategori')
 				 ;
-			$crud->columns('title_id', 'title_en', 'text_id', 'text_en');
+			$crud->columns('id_news_category', 'title_id', 'title_en', 'text_id', 'text_en');
 			
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));
@@ -261,7 +265,7 @@ class Admin extends CI_Controller {
 			
 			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'url', 'modified_by', 'modified_date');
 			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'url', 'modified_by', 'modified_date');
-			$crud->columns('expired_date', 'title_id', 'text_id', 'modified_by');
+			$crud->columns('title_id', 'title_en', 'modified_by');
 			
 			$crud->display_as('title_id', 'Judul (Bahasa)')
 				 ->display_as('title_en', 'Judul (English)')
@@ -310,8 +314,8 @@ class Admin extends CI_Controller {
 			$crud->required_fields('name', 'description', 'title_id', 'title_en', 'url');
 			$crud->unique_fields('sitemap_code','name');
 			
-			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'css_class', 'css_id', 'icon', 'sort_no', 'modified_by', 'modified_date');
-			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'css_class', 'css_id', 'icon', 'sort_no', 'modified_by', 'modified_date');
+			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'modified_by', 'modified_date');
 			$crud->columns('sitemap_code', 'title_id', 'url', 'modified_by');
 			
 			$crud->display_as('title_id', 'Judul (Bahasa)')
@@ -366,7 +370,7 @@ class Admin extends CI_Controller {
 			
 			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'embed', 'modified_by', 'modified_date');
 			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'embed', 'modified_by', 'modified_date');
-			$crud->columns('title_id', 'text_id', 'embed', 'modified_by');
+			$crud->columns('title_id', 'text_id', 'modified_by');
 			
 			$crud->display_as('title_id', 'Judul (Bahasa)')
 				 ->display_as('title_en', 'Judul (English)')
@@ -496,19 +500,24 @@ class Admin extends CI_Controller {
 			
 			$crud->set_relation('modified_by', 'tbl_user', 'email');
 			
-			if($state == 'edit' or $state == 'add')
-			{
+			//if($state == 'edit' or $state == 'add')
+			//{
 				$crud->set_relation('id_laws_category','tbl_laws_category','laws_category_id');
-			}
+			//}
 			
 			$crud->required_fields('laws_id', 'laws_en');
 			
-			$crud->add_fields('id_laws_category', 'laws_id', 'laws_en', 'modified_by', 'modified_date');
-			$crud->edit_fields('id_laws_category', 'laws_id', 'laws_en', 'modified_by', 'modified_date');
-			$crud->columns('laws_id', 'laws_en', 'modified_by');
+			$crud->set_field_upload('files','assets/uploads/files');
+			
+			$crud->add_fields('id_laws_category', 'laws_id', 'laws_en', 'files',  'modified_by', 'modified_date');
+			$crud->edit_fields('id_laws_category', 'laws_id', 'laws_en', 'files',  'modified_by', 'modified_date');
+			$crud->columns('id_laws_category', 'laws_id', 'laws_en', 'modified_by');
+			
+			
 			
 			$crud->display_as('laws_id', 'Judul (Bahasa)')
 				 ->display_as('laws_en', 'Judul (English)')
+				 ->display_as('files','Berkas')
 				 ->display_as('id_laws_category', 'Kategori')
 				 ->display_as('modified_by', 'Input / Edit Tanggal')
 				 ;
@@ -526,7 +535,6 @@ class Admin extends CI_Controller {
 			$hukum = $this->get_sitemap();
 			
 			$output = $crud->render($hukum);
-			
 			$this->load->view('admin/themes/default', $output);
 		}catch(Execption $e)
 		{
@@ -545,22 +553,19 @@ class Admin extends CI_Controller {
 			
 			$state = $crud->getState();
 			
-			$crud->set_relation('midified_by', 'tbl_user', 'email');
+			$crud->set_relation('modified_by', 'tbl_user', 'email');
 			
-			//if($state == 'edit' or $state == 'add')
-			//{
-			//	$crud->set_relation('laws_id','tbl_laws','embed');
-			//}
-			
+			$crud->set_relation('id_publication_category','tbl_publication_category','title_id');
+				
 			
 			$crud->set_field_upload('cover','assets/uploads/picture');			
 			$crud->set_field_upload('file','assets/uploads/files');
 			
-			$crud->required_fields('publication_date', 'title_id','title_en');
+			$crud->required_fields('id_publication_category', 'publication_date', 'expired_date', 'title_id','title_en');
 			
-			$crud->add_fields('publication_date', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'midified_by', 'modified_date');
-			$crud->edit_fields('publication_date', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'midified_by', 'modified_date');
-			$crud->columns('publication_date', 'title_id', 'title_en', 'midified_by');
+			$crud->add_fields('id_publication_category', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'publication_date', 'expired_date', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_publication_category', 'title_id', 'title_en', 'text_id', 'text_en', 'cover', 'file', 'publication_date', 'expired_date',  'modified_by', 'modified_date');
+			$crud->columns('id_publication_category','publication_date', 'title_id', 'title_en', 'modified_by');
 			
 			$crud->display_as('publication_date', 'Tanggal Publikasi')
 				 ->display_as('title_id', 'Judul (Bahasa)')
@@ -569,14 +574,16 @@ class Admin extends CI_Controller {
 				 ->display_as('text_en','Isi (English)')
 				 ->display_as('cover', 'Cover')
 				 ->display_as('file', 'Berkas')
-				 ->display_as('midified_by', 'Input / Edit Tanggal')
+				 ->display_as('expired_date', 'Tanggal Kadarluarsa')
+				 ->display_as('id_publication_category', 'Kategori')
+				 ->display_as('modified_by', 'Input / Edit')
 				 ;
 				 
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));
 			$crud->callback_field('modified_date',array($this,'format_date_callback'));
 			
-			$crud->change_field_type('midified_by','readonly');
+			$crud->change_field_type('modified_by','readonly');
 			$crud->change_field_type('modified_date','readonly');
 			$crud->unset_read();
 			if($crud->state = "list")
@@ -692,30 +699,30 @@ class Admin extends CI_Controller {
 			$crud = new grocery_CRUD();
 			$crud->set_table('tbl_pers_release');
 			$crud->set_subject('Pers Release');
-			$crud->set_relation('midified_by','tbl_user','email');
+			$crud->set_relation('modified_by','tbl_user','email');
 			
 			$crud->set_field_upload('file','assets/uploads/files');
 			
 			$crud->required_fields('title_id','title_en');
 			
-			$crud->add_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'midified_by', 'modified_date');
-			$crud->edit_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'midified_by', 'modified_date');
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'modified_by', 'modified_date');
+			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'modified_by', 'modified_date');
 			
 			$crud->display_as('title_id','Judul (Indonesia)')
 				 ->display_as('title_en','Judul (English)')
 				 ->display_as('text_id','Isi (Indonesia)')
-				 ->display_as('tent_en','Isi (English)')
+				 ->display_as('text_en','Isi (English)')
 				 ->display_as('file','Berkas')
-				 ->display_as('midified_by', 'Input / Edit oleh')
+				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
 				 ;
-			$crud->columns('title_id', 'title_en','modified_by');
+			$crud->columns('title_id', 'title_en', 'modified_by');
 			
-			$crud->callback_before_update(array($this,'get_change_by_callback'));
-			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_before_update(array($this, 'get_change_by_callback'));
+			$crud->callback_before_insert(array($this, 'get_change_by_callback'));
 			$crud->callback_field('modified_date',array($this,'format_date_callback'));
 			
-			$crud->change_field_type('midified_by','readonly');
+			$crud->change_field_type('modified_by','readonly');
 			$crud->change_field_type('modified_date','readonly');
 			
 			$crud->order_by('id_pers_release','desc');
@@ -741,10 +748,12 @@ class Admin extends CI_Controller {
 			$crud->set_subject('Slider');
 			$crud->set_relation('modified_by','tbl_user','email');
 			
-			$crud->required_fields('title_id','title_en');
+			$crud->required_fields('picture', 'title_id','title_en');
 			
-			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
-			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->set_field_upload('picture', 'assets/uploads/picture');
+			
+			$crud->add_fields('picture', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('picture', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
 			
 			$crud->display_as('title_id','Judul (Indonesia)')
 				 ->display_as('title_en','Judul (English)')
@@ -878,10 +887,10 @@ class Admin extends CI_Controller {
 			
 			$state = $crud->getState();
 						
-			if($state == 'edit' or $state == 'add')
-			{
+			//if($state == 'edit' or $state == 'add')
+			//{
 				$crud->set_relation('id_polling_category','tbl_polling_category','cateory_id',array('is_active' => 'Y'));
-			}
+			//}
 			
 			$crud->add_fields('id_polling_category','polling_id','polling_en', 'modified_by', 'modified_date');
 			$crud->edit_fields('id_polling_category','polling_id','polling_en', 'modified_by', 'modified_date');
@@ -892,7 +901,7 @@ class Admin extends CI_Controller {
 				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
 				 ;
-			$crud->columns('polling_id', 'polling_en', 'modified_by');
+			$crud->columns('id_polling_category','polling_id', 'polling_en', 'modified_by');
 			
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));

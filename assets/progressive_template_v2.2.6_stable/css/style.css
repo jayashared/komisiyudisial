@@ -71,6 +71,8 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+
 body.loaded {
   overflow-x: inherit;
 }
@@ -4627,8 +4629,9 @@ blockquote small {
   Slider
 *******************************************************************************/
 .slider {
-  background: #f2f2f2;
-  padding: 54px 0;
+  background: #ffffff;
+  padding: 20px 0;
+  border:1px solid #f4f4f4;
 }
 .slider > .container {
   position: relative;

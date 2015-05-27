@@ -8,6 +8,7 @@ class Agenda_m  extends CI_Model  {
 	function __construct()
     {
         parent::__construct();
+		$this->sess = $this->session->userdata("lang");
     }
 	
 	function get_latest_agenda($limit = 5)
@@ -16,6 +17,27 @@ class Agenda_m  extends CI_Model  {
 		$this->db->order_by("id_agenda desc");
 		$query = $this->db->get($this->table_name);		
 		return $query->result();
+	}
+	
+	function get_list($limit=0, $offset=0)
+	{
+		$this->db->order_by("id_agenda desc");
+		$this->db->limit($limit, $offset);
+		$query = $this->db->get($this->table_name);
+		//echo $this->db->last_query();
+		return $query->result();
+	}
+	
+	function get_detail($id_agenda=NULL)
+	{
+		$this->db->where(array("id_agenda"=>$id_agenda));
+		$query = $this->db->get($this->table_name);
+		return $query->result();
+	}
+	
+	function get_count()
+	{
+		return $this->db->count_all_results($this->table_name);
 	}
 	
 }

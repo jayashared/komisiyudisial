@@ -1,61 +1,32 @@
+<?php
+	$sess = $this->session->userdata("lang");
+	//print_r($sitemap);
+	$footer = isset($sitemap["footer"])?$sitemap["footer"]:"";
+?>
 <footer id="footer">
   <div class="footer-top">
     <div class="container">
       <div class="row sidebar">
-		<aside class="col-xs-12 col-sm-6 col-md-3 widget social">
+		<?php
+        foreach( $footer as $rf )
+		{
+		?>
+        <aside class="col-xs-12 col-sm-6 col-md-3 widget links">
 		  <div class="title-block">
-			<h3 class="title">Follow Us</h3>
-		  </div>
-          <p>Follow us in social media</p>
-          <a class="sbtnf sbtnf-rounded color color-hover icon-facebook" href="#"></a>
-          <a class="sbtnf sbtnf-rounded color color-hover icon-twitter" href="#"></a>
-          <a class="sbtnf sbtnf-rounded color color-hover icon-gplus" href="#"></a>
-          <a class="sbtnf sbtnf-rounded color color-hover icon-linkedin" href="#"></a>
-		  <div class="clearfix"></div>
-        </aside>
-
-		<aside class="col-xs-12 col-sm-6 col-md-3 widget newsletter">
-		  <div class="title-block">
-			<h3 class="title">Newsletter Signup</h3>
-		  </div>
-		  <div>
-			<p>Sign up for newsletter</p>
-			<div class="clearfix"></div>
-			<form id="sent-email" method="POST">
-			  <input class="form-control" type="email" name="email">
-			  <button id="join-us" class="submit"><span class="glyphicon glyphicon-arrow-right"></span></button>
-			  <div class="success"></div>
-			</form>
-		  </div>
-		</aside><!-- .newsletter -->
-		
-		<aside class="col-xs-12 col-sm-6 col-md-3 widget links">
-		  <div class="title-block">
-			<h3 class="title">Information</h3>
+			<h3 class="title"><?php echo $sess=="id"?$rf->title_id:$rf->title_en ?></h3>
 		  </div>
 		  <nav>
 			<ul>
-			  <li><a href="#">About us</a></li>
-			  <li><a href="#">Privacy Policy</a></li>
-			  <li><a href="#">Terms &amp; Condotions</a></li>
-			  <li><a href="#">Secure payment</a></li>
+              <?php foreach( $rf->sub_sitemap as $rss ){ ?>
+			  <li><a href="#"><?php echo $sess=="id"?$rss->title_id:$rss->title_en; ?></a></li>
+              <?php } ?>
 			</ul>
 		  </nav>
         </aside>
+		<?php
+		}
+		?>
 		
-		<aside class="col-xs-12 col-sm-6 col-md-3 widget links">
-		  <div class="title-block">
-			<h3 class="title">Kontak Kami</h3>
-		  </div>
-		  <nav>
-			<ul>
-			  <li><a href="#">My account</a></li>
-			  <li><a href="#">Order History</a></li>
-			  <li><a href="#">Wish List</a></li>
-			  <li><a href="#">Newsletter</a></li>
-			</ul>
-		  </nav>
-        </aside>
       </div>
     </div>
   </div><!-- .footer-top -->
@@ -95,7 +66,7 @@
 			  </g>
 			</svg>
 		  </div>
-          	Komisi Yudisial Republik Indonesia
+          	Komisi Yudisial Republik Indonesia <br>
             Jl. Kramat Raya No. 57, Jakarta Pusat
         </div>
 		
