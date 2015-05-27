@@ -30,10 +30,10 @@
 			</div><!-- .primary -->
 		  </div>
 		</div>
-		
+        
         <div style="float:right; position:absolute; right:30px; top:10px; z-index:100000000">
-            <span class="label label-warning set-lang">ID</span>
-            <span class="label label-warning set-lang">EN</span>
+            <span class="label label-warning set-lang" id="lang-id">ID</span>
+            <span class="label label-warning set-lang" id="lang-en">EN</span>
         </div>
         
         
@@ -65,11 +65,27 @@
 	.set-lang{ cursor:pointer; }
 </style>
 
+<?php $sess = $this->session->userdata("lang"); ?>
+
 <script>
-	$(".set-lang").mouseover(function(e) {
+	$(document).ready(function(e) {
+        if( "<?php echo $sess ?>"=="id" )
+		{
+			$("#lang-id").removeClass("label-warning");
+			$("#lang-id").addClass("label-danger");
+		}
+		else
+		{
+			$("#lang-en").removeClass("label-warning");
+			$("#lang-en").addClass("label-danger");
+		}
+    });
+
+	/*$(".set-lang").mouseover(function(e) {
         $(".set-lang").removeClass("label-danger");
 		$(this).addClass("label-danger");
-    });
+    });*/
+	
 	$(".set-lang").click(function(e) {
         var lang = $(this).text();
 		location.href = "<?php echo base_url() ?>frontend/set_lang/" + lang + "?curl=<?php echo current_url(); ?>";
