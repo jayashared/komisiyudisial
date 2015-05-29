@@ -772,10 +772,28 @@ class Frontend extends CI_Controller {
 			"user_agent"=>$d["user_agent"],
 			"id_polling"=>$id_polling
 		);
-		
-		$result = $this->polling_m->insert_vote($data);		
+		if( !empty($id_polling) )
+			$result = $this->polling_m->insert_vote($data);		
 		
 		redirect( "frontend/polling_result" );
+	}
+	
+	public function searching_process()
+	{
+		try
+		{
+			$query = $this->input->post("query");
+			
+			
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/polling-result.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+		
 	}
 	
 }

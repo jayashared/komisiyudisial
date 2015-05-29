@@ -39,8 +39,8 @@
         
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>×</a>
-		  <form name="search-form" class="search-form">
-			<input class="search-string form-control" type="search" placeholder="Search here" name="search-string">
+		  <form name="search-form" class="search-form" method="post" action="<?php echo base_url() ?>frontend/searching_process">
+			<input class="search-string form-control" type="search" placeholder="Pencarian" name="query">
 			<button class="search-submit">
 			  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
 				<path fill="#231F20" d="M12.001,10l-0.5,0.5l-0.79-0.79c0.806-1.021,1.29-2.308,1.29-3.71c0-3.313-2.687-6-6-6C2.687,0,0,2.687,0,6

@@ -32,10 +32,14 @@ class Polling_m  extends CI_Model  {
 	
 	function insert_vote($data=NULL)
 	{
-		if( !empty($data) )
-		return $this->db->insert($this->table_result, $data);
-		else
-		return 0;
+		try{
+			if( !empty($data) )
+				return $this->db->insert($this->table_result, $data);
+			else
+				return 0;
+		} catch(Exception $e){
+			return 0;
+		}
 	}
 	
 	function get_result($id_polling=NULL)
