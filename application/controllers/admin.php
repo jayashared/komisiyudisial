@@ -97,12 +97,15 @@ class Admin extends CI_Controller {
 			$crud->set_relation('modified_by','tbl_user','email');
 			$crud->set_relation('id_news_category','tbl_news_category','news_category_id');
 			
+			$crud->set_relation_n_n('tag', 'tbl_news_tag_trans', 'tbl_news_tag', 'id_news', 'id_news_tag','news_tag_id');
+			
 			$crud->set_field_upload('picture','assets/uploads/picture');
 			
 			$crud->required_fields('date', 'title_id', 'title_en', 'text_id', 'text_en');
 			
-			$crud->add_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en', 'modified_by', 'modified_date');
-			$crud->edit_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en', 'modified_by', 'modified_date');
+			$crud->add_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en','tag', 'modified_by', 'modified_date');
+			$crud->edit_fields('date', 'id_news_category', 'title_id', 'title_en', 'text_id', 'text_en', 'picture', 'picture_caption_id', 'picture_caption_en','tag', 'modified_by', 'modified_date');
+			
 			$crud->display_as('date','Tanggal')
 				 ->display_as('title_id','Judul (Indonesia)')
 				 ->display_as('title_en','Judul (English)')
@@ -112,6 +115,8 @@ class Admin extends CI_Controller {
 				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
 				 ->display_as('id_news_category', 'Kategori')
+				 ->display_as('tag', ' Tag ')
+				 
 				 ;
 			$crud->columns('id_news_category', 'title_id', 'title_en', 'text_id', 'text_en');
 			
@@ -132,6 +137,88 @@ class Admin extends CI_Controller {
 
 		} catch(Exception $e){
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function news_category()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_news_category');
+			$crud->set_subject('News Category');
+			
+			$crud->set_relation('modified_by','tbl_user','email');
+
+			$crud->required_fields('news_category_id', 'news_category_en');
+			
+			$crud->add_fields('news_category_id', 'news_category_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('news_category_id', 'news_category_en', 'modified_by', 'modified_date');
+			$crud->columns('news_category_id', 'news_category_en', 'modified_by');
+			
+			$crud->display_as('news_category_id', 'Kategori (Bahasa)')
+				 ->display_as('news_category_en', 'Kategori (English)')
+				 ->display_as('modified_by', 'Input / Edit Tanggal')
+				 ;
+
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			$crud->unset_read();
+			$crud->order_by('id_news_category','desc');
+			
+			$news_category = $this->get_sitemap();
+			
+			$output = $crud->render($news_category);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Exception $e)
+		{
+			show_error($e-getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function news_tag()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_news_tag');
+			$crud->set_subject('News Tag');
+			
+			$crud->set_relation('modified_by','tbl_user','email');
+
+			$crud->required_fields('news_tag_id', 'news_tag_en');
+			
+			$crud->add_fields('news_tag_id', 'news_tag_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('news_tag_id', 'news_tag_en', 'modified_by', 'modified_date');
+			$crud->columns('news_tag_id', 'news_tag_en', 'modified_by');
+			
+			$crud->display_as('news_tag_id', 'Tag (Bahasa)')
+				 ->display_as('news_tag_en', 'Tag (English)')
+				 ->display_as('modified_by', 'Input / Edit Tanggal')
+				 ;
+
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+			$crud->unset_read();
+			$crud->order_by('id_news_tag','desc');
+			
+			$news_tag = $this->get_sitemap();
+			
+			$output = $crud->render($news_tag);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Exception $e)
+		{
+			show_error($e-getMessage().' --- '.$e->getTraceAsString());
 		}
 	}
 	
@@ -705,7 +792,7 @@ class Admin extends CI_Controller {
 			
 			$crud->required_fields('title_id','title_en');
 			
-			$crud->add_fields('title_id', 'title_en', 'text_id', 'tent_en', 'file', 'modified_by', 'modified_date');
+			$crud->add_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'modified_by', 'modified_date');
 			$crud->edit_fields('title_id', 'title_en', 'text_id', 'text_en', 'file', 'modified_by', 'modified_date');
 			
 			$crud->display_as('title_id','Judul (Indonesia)')
@@ -928,7 +1015,54 @@ class Admin extends CI_Controller {
 	{
 		try
 		{
-		
+			
+		}catch(execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	
+	public function Gallery()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_gallery');
+			$crud->set_subject('Gallery');
+			$crud->set_relation('modified_by','tbl_user','email');
+			
+			$crud->required_fields('picture', 'title_id','title_en');
+			
+			$crud->set_field_upload('picture', 'assets/uploads/picture');
+			
+			$crud->add_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'midified_date');
+			$crud->edit_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'midified_date');
+			
+			$crud->display_as('picture','Gambar')
+				 ->display_as('title_id','Judul (Bahasa)')
+				 ->display_as('title_en','Judul (English')
+				 ->display_as('text_id','Isi (Indonesia)')
+				 ->display_as('text_en','Isi (English)')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('midified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('title_id', 'title_en', 'is_active', 'modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('midified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('midified_date','readonly');
+			
+			$crud->order_by('id_gallery','desc');
+			$crud->unset_read();
+			
+			$gallery = $this->get_sitemap();
+			
+			$output = $crud->render($gallery);
+			$this->load->view('admin/themes/default', $output);
 		}catch(execption $e)
 		{
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
