@@ -1,45 +1,46 @@
-<div class="banner-set load">
-  <div class="container">
-    
-    <div class="banners">
-      <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner1.jpg" width="253" height="158" alt="">
-		<h2 class="title">Home Theater</h2>
-		<div class="description">Nunc condimentum eros vel nibh consectetur dignissim. Ut ante neque, ullamcorper ac feugiat at, ullamcorper sagittis magna.</div>
-      </a>
-      <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner2.jpg" width="253" height="158" alt="">
-		<h2 class="title">Multiroom</h2>
-		<div class="description">Maecenas ac leo velit. Aliquam venenatis tellus in erat pellentesque ut dignissim turpis consequat. Fusce sit amet sagittis urna.</div>
-      </a>
-      <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner3.jpg" width="253" height="158" alt="">
-		<h2 class="title">Lighting Control</h2>
-		<div class="description">Phasellus quis mauris non mauris sceleris vehicula. Vestibulum ipsum odio, placerat sed consequat in, congue non nibh.</div>
-      </a>
-      <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner4.jpg" width="253" height="158" alt="">
-		<h2 class="title">Amazing Sound</h2>
-		<div class="description">Maecenas et massa odio, tincidunt ultrices sapien. Praesent non tortor quis metus posuere gravida at quis nulla.</div>
-      </a>
-      <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner5.jpg" width="253" height="158" alt="">
-		<h2 class="title">Home Theater</h2>
-		<div class="description">Nunc condimentum eros vel nibh consectetur dignissim. Ut ante neque, ullamcorper ac feugiat at, ullamcorper sagittis magna.</div>
-      </a>
-	  <a href="#" class="banner">
-		<img src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/content/banner6.jpg" width="253" height="158" alt="">
-		<h2 class="title">Multiroom</h2>
-		<div class="description">Maecenas ac leo velit. Aliquam venenatis tellus in erat pellentesque ut dignissim turpis consequat. Fusce sit amet sagittis urna.</div>
-      </a>
-    </div><!-- .banners -->
-	<div class="clearfix"></div>
-  </div>
-  <div class="nav-box">
-    <div class="container">
-      <a class="prev" href="#"><span class="glyphicon glyphicon-arrow-left"></span></a>
-      <div class="pagination switches"></div>
-      <a class="next" href="#"><span class="glyphicon glyphicon-arrow-right"></span></a>	
+<?php 
+	$sess = $this->session->userdata("lang"); 
+	$gallery = isset($gallery)?$gallery:"";
+?>
+
+<div class="container">
+    <div class="title-box">
+        <a href="<?php echo base_url() ?>frontend/gallery" class="btn btn-default">
+            <?php echo $sess=="id"?"Berkas":"All Post"; ?>
+        <span class="glyphicon glyphicon-arrow-right"></span></a>
+        <h2 class="title"><?php echo $sess=="id"?"Gallery":"Gallery"; ?></h2>
     </div>
+</div>
+
+<div class="banner-set banner-set-mini banner-set-no-pagination load bottom-padding">
+<div class="container">
+  <div class="banners">
+	<?php  
+	echo empty($gallery)?"Data not Found":"";
+	foreach( $gallery as $ra )
+	{
+	?>    
+    <a href="<?php echo base_url() ?>frontend/gallery" class="banner">
+      <img src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $ra->picture ?>" 
+          width="127" 
+          height="79" alt="<?php echo $sess=="id"?$ra->title_id:$ra->title_en; ?>" 
+          title="<?php echo $sess=="id"?$ra->title_id:$ra->title_en; ?>"    
+      >
+      <h2 class="title" title="<?php echo $sess=="id"?$ra->title_id:$ra->title_en; ?>">
+	  <?php echo $sess=="id"?PotongKata($ra->title_id,5):PotongKata($ra->title_en,5); ?>
+      </h2>
+    </a>
+    <?php 
+	} 
+	?>
+  </div><!-- .banners -->
+  <div class="clearfix"></div>
+</div>
+<div class="nav-box">
+  <div class="container">
+    <a class="prev" href="#"><span class="glyphicon glyphicon-arrow-left"></span></a>
+    <div class="pagination switches"></div>
+    <a class="next" href="#"><span class="glyphicon glyphicon-arrow-right"></span></a>	
   </div>
+</div>
 </div><!-- .banner-set -->

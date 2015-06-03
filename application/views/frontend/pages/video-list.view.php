@@ -21,17 +21,18 @@
 		?>
             <li>
               <a href="<?php echo base_url() ?>frontend/video_detail/<?php echo $row->id_video ?>/<?php echo $sess=="id"?SEO($row->title_id):SEO($row->title_en); ?>">
-              	<big><strong class="text-primary"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
+              	<big><strong class="text-warning"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
               </a>
               <div class="meta">
 				<span class="time"><?php echo $sess=="id"?"Tanggal Posting":"Posting Date" ?>: <?php echo TglOnlyIndo($row->modified_date) ?></span>
 			  </div>
 			  <div class="description">
                 <p>
-                	<div class="col-md-3">
-                        <iframe width="100%"
-                            src="http://www.youtube.com/embed/<?php echo $row->embed ?>">
-                        </iframe>
+                	<div class="col-md-3 col-sm-12 col-xs-12">
+                        <img src="http://img.youtube.com/vi/<?php echo $row->embed ?>/hqdefault.jpg" 
+                              alt="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" 
+                              title="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>"    
+                        >
                     </div>
                 	<?php echo PotongKata($sess=="id"?$row->text_id:$row->text_id, 50); ?>
                 </p>

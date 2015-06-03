@@ -4,6 +4,7 @@ class Frontend extends CI_Controller {
 	
 	var $data = array();
 	var $data_footer = array();
+	var $data_newsticker = array();
 	
 	public function __construct()
 	{
@@ -15,6 +16,8 @@ class Frontend extends CI_Controller {
 		$data = $sitemap;
 		$this->data = $data;
 		$this->data_footer = $sitemap_footer;
+		$this->data_newsticker = $this->data_newsticker();
+		
 		
 		// Session For Language
 		$def_lang = $this->session->userdata('lang');
@@ -42,6 +45,7 @@ class Frontend extends CI_Controller {
 		$this->load->model("link_m");
 		$this->load->model("information_system_m");
 		$this->load->model("polling_m");
+		$this->load->model("gallery_m");
 		
 		
 		$polling = $this->polling_m->get_category();
@@ -62,6 +66,7 @@ class Frontend extends CI_Controller {
 		$data["link"] = $this->link_m->get_list();
 		$data["information_system"] = $this->information_system_m->get_list();
 		$data["polling"] = $polling;
+		$data["gallery"] = $this->gallery_m->get_latest();
 		
 		//echo "<pre>";
 		//print_r($this->get_sitemap()); exit;
@@ -98,11 +103,20 @@ class Frontend extends CI_Controller {
 		return $sitemap;
 	}
 	
+	public function data_newsticker()
+	{
+		$this->load->model("global_m");
+		
+		$data = $this->global_m->get_newsticker_list();
+		return $data;
+	}
+	
 	public function get_sitemap()
 	{
 		$array_sitemap = $this->data;
 		$array_footer = $this->data_footer;
-		$data = array("sitemap"=>$array_sitemap, "footer"=>$array_footer);
+		$array_newsticker = $this->data_newsticker;
+		$data = array("sitemap"=>$array_sitemap, "footer"=>$array_footer, "newsticker"=>$array_newsticker);
 		return $data;
 	}
 	
@@ -149,7 +163,7 @@ class Frontend extends CI_Controller {
 		/* Wajib */
 	}
 	
-	public function news($id_news_category=NULL)
+	public function news($id_news_category=NULL, $id_news_tag=NULL)
 	{
 		try
 		{
@@ -167,8 +181,8 @@ class Frontend extends CI_Controller {
 			endif;
 			
 			// Paging
-			$total_row =  $this->news_m->get_count($id_news_category);
-			$url = base_url() . "frontend/news/" . $id_news_category . "?paging=true";
+			$total_row =  $this->news_m->get_count($id_news_category, $id_news_tag);
+			$url = base_url() . "frontend/news/" . $id_news_category . "/" . $id_news_tag . "?paging=true";
 			$data_paging = array(
 				"url"=>$url,
 				"total_rows"=>$total_row,
@@ -176,7 +190,7 @@ class Frontend extends CI_Controller {
 				"halaman"=>$page
 			);
 			
-			$news = $this->news_m->get_list($limit, $offset);
+			$news = $this->news_m->get_list($limit, $offset, $id_news_category, $id_news_tag);
 			
 			foreach( $news as $row )
 			{
@@ -357,6 +371,71 @@ class Frontend extends CI_Controller {
 			/* Wajib */
 			$data["sitemap"] = $this->get_sitemap();
 			$data["content"] = "frontend/pages/video-detail.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+	}
+	
+	public function gallery()
+	{
+		try
+		{
+			
+			$this->load->model("gallery_m");
+			
+			$page = $this->input->get("page");
+			$page = !empty($page)?$page:1;
+			$limit = 50;
+			
+			if(isset($page) and !empty($page)):
+				$offset = ($page * $limit) - $limit;
+			else:
+				$offset = 0;
+			endif;
+			
+			// Paging
+			$total_row =  $this->gallery_m->get_count();
+			$url = base_url() . "frontend/gallery/?paging=true";
+			$data_paging = array(
+				"url"=>$url,
+				"total_rows"=>$total_row,
+				"per_page"=>$limit,
+				"halaman"=>$page
+			);
+			
+			$gallery = $this->gallery_m->get_list($limit, $offset);
+			
+			$data["paging"] = $this->paging($data_paging);
+			$data["page"] = $page;
+			
+			$data["gallery"] = $gallery;
+			
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/gallery-list.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+	}
+	
+	public function gallery_detail($id_gallery=NULL)
+	{
+		try
+		{
+			
+			$this->load->model("gallery_m");
+			
+			$gallery = $this->gallery_m->get_detail($id_gallery);
+						
+			$data["gallery"] = $gallery;
+			
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/gallery-detail.view.php";
 			$this->load->view('frontend/index', $data);
 			/* Wajib */
 		} catch(Exception $e){
@@ -782,18 +861,151 @@ class Frontend extends CI_Controller {
 	{
 		try
 		{
-			$query = $this->input->post("query");
+			$this->load->model("global_m");
+			$query = $this->input->get("query");
 			
+			$page = $this->input->get("page");
+			$page = !empty($page)?$page:1;
+			$limit = 10;
 			
+			if(isset($page) and !empty($page)):
+				$offset = ($page * $limit) - $limit;
+			else:
+				$offset = 0;
+			endif;
+			
+			// Paging
+			$total_row =  $this->global_m->get_search_result_count($query);
+			$url = base_url() . "frontend/searching_process/?paging=true&query=" . $query . "";
+			$data_paging = array(
+				"url"=>$url,
+				"total_rows"=>$total_row,
+				"per_page"=>$limit,
+				"halaman"=>$page
+			);
+			
+			$search = $this->global_m->get_search_result($limit, $offset, $query);
+			
+			//print_r($search);
+			
+			$data["paging"] = $this->paging($data_paging);
+			$data["page"] = $page;
+			
+			$data["search"] = $search;
 			/* Wajib */
 			$data["sitemap"] = $this->get_sitemap();
-			$data["content"] = "frontend/pages/polling-result.view.php";
+			$data["content"] = "frontend/pages/search-result.view.php";
 			$this->load->view('frontend/index', $data);
 			/* Wajib */
 		} catch(Exception $e){
 			echo "Terjadi Kesalahan. Hubungi Administrator";
 		}
 		
+	}
+	
+	public function contact_us()
+	{
+		try
+		{	
+			$this->load->model("static_content_m");
+			$where = array("static_content"=>"contact_us");
+			$r = $this->static_content_m->display($where);
+			
+			
+			$data["contact_us"] = $r;
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/contact-us.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+	}
+	
+	public function contact_us_process()
+	{
+		try
+		{	
+			$this->load->model("global_m");
+			
+			$sess = $this->session->userdata("lang");
+			
+			$data = array(
+				"name"=>$this->input->post("name"),
+				"email"=>$this->input->post("email"),
+				"subject"=>$this->input->post("subject"),
+				"message"=>$this->input->post("message")
+			);
+			
+			$resul = $this->global_m->insert_contact_us($data);
+			if( $resul )
+			{
+				if( $sess == "id" )
+				{
+					$m = '
+						<div class="col-md-12 bg-primary">
+							<b>Berhasil</b> Pesan anda akan dibalas secepatnya.
+						</div>
+					';
+				}
+				else
+				{
+					$m = '
+						<div class="col-md-12 bg-warning">
+							<b>Success</b> Your message will be Replied soon.
+						</div>
+					';
+				}
+			}
+			else
+			{
+				if( $sess == "id" )
+				{
+					$m = '
+						<div class="col-md-12 bg-primary">
+							<b>Gagal</b> Silahkan kirim email ke kyri@komisiyudisial.go.id
+						</div>
+					';
+				}
+				else
+				{
+					$m = '
+						<div class="col-md-12 bg-warning">
+							<b>Failed</b> Please send email to kyri@komisiyudisial.go.id
+						</div>
+					';
+				}
+			}
+			
+			$this->session->set_flashdata('message', $m);
+			
+			redirect("frontend/contact_us");
+				
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
+	}
+	
+	public function slider_detail($id_slider=NULL)
+	{
+		try
+		{
+			
+			$this->load->model("slider_m");
+			
+			$slider = $this->slider_m->get_detail($id_slider);
+						
+			$data["slider"] = $slider;
+			
+			/* Wajib */
+			$data["sitemap"] = $this->get_sitemap();
+			$data["content"] = "frontend/pages/slider-detail.view.php";
+			$this->load->view('frontend/index', $data);
+			/* Wajib */
+		} catch(Exception $e){
+			echo "Terjadi Kesalahan. Hubungi Administrator";
+		}
 	}
 	
 }

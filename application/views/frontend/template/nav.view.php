@@ -34,7 +34,7 @@
                 else
                 {
             ?>
-                <li class=""><a href="<?php echo base_url() . $row->url ?>"><?php echo $sess=="id"?$row->title_en:$row->title_en; ?></a></li>
+                <li class=""><a href="<?php echo base_url() . $row->url ?>"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></a></li>
             <?php
                 }
             ?>

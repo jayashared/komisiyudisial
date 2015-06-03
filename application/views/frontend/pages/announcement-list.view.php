@@ -21,7 +21,7 @@
 		?>
             <li>
               <a href="<?php echo base_url() ?>frontend/announcement_detail/<?php echo $row->id_announcement ?>/<?php echo $sess=="id"?SEO($row->title_id):SEO($row->title_en); ?>">
-              	<big><strong class="text-primary"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
+              	<big><strong class="text-warning"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
               </a>
               <div class="meta">
 				<span class="time"><?php echo TglOnlyIndo($row->expired_date) ?></span>

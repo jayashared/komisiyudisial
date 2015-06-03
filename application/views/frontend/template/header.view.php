@@ -39,7 +39,7 @@
         
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>×</a>
-		  <form name="search-form" class="search-form" method="post" action="<?php echo base_url() ?>frontend/searching_process">
+		  <form name="search-form" class="search-form" method="get" action="<?php echo base_url() ?>frontend/searching_process">
 			<input class="search-string form-control" type="search" placeholder="Pencarian" name="query">
 			<button class="search-submit">
 			  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
@@ -55,12 +55,31 @@
 	</div>
   </div><!-- .header-wrapper -->
 </header><!-- .header -->
+<br />
 
-<div class="breadcrumb-box">
-  <div class="container">
-    <marquee> News Ticker </marquee>	
-  </div>
-</div><!-- .breadcrumb-box -->
+<?php
+	$sess = $this->session->userdata("lang");
+	$newsticker = isset($sitemap["newsticker"])?$sitemap["newsticker"]:"";
+?>
+
+<div class="row">
+    <div class="container">
+        <div class="col-md-2" style="background:#C10841; color:#FFFFFF; height:30px; padding:3px 0px 0px 15px;">
+        	<i class="fa fa-info"></i> Info Update
+        </div> 
+        <div class="col-md-10 bg-warning" style="background:#FFCC66; color:#FFF; height:30px; padding:5px;">
+        	<marquee scrolldelay="100" onmouseover="stop()" onmouseout="start()" style="margin:0px !important;"> 
+            	<?php foreach( $newsticker as $rn ){ ?>
+                	<i class="fa fa-calendar"></i> <?php echo TglIndo($rn->date) ?> - 
+                    <a href="<?php echo base_url() ?>frontend/news_detail/<?php echo $rn->id_news ?>/<?php echo $sess=="id"?SEO($rn->title_id):SEO($rn->title_en); ?>" style="color:#FFF;">
+						<?php echo $sess=="id"?$rn->title_id:$rn->title_en; ?>
+                    </a> | 
+                <?php } ?>
+            </marquee>
+        </div>
+    </div>
+</div>
+
 <style>
 	.set-lang{ cursor:pointer; }
 </style>

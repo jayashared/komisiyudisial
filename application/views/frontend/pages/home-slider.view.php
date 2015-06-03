@@ -1,53 +1,115 @@
+<style>
+	#slider-container { margin-top:20px; }
+	#left-slider { margin-left:0px !important; cursor:pointer;  }
+	#right-slider { border:0px solid black; height:auto; }
+	.clear { clear:both; }
+	#right-slider ul { }
+	#right-slider ul li 
+	{ 
+		padding-left:0px; 
+		margin-left:-40px; 
+		list-style:square; 
+		color:#FFF; 
+		margin:0px 0px 18px -60px;
+		padding:0px 0px 10px 10px;
+		border-bottom:1px dotted #FFF;
+		border-left:5px solid #FFF;
+		display:block; 
+	}
+	#right-slider ul li a { color:#FFF; font-size:14px;}
+</style>
+
+<!-- bjqs.css contains the *essential* css needed for the slider to work -->
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/slider/bjqs.css">
+
+<!-- demo.css contains additional styles used to set up this demo page - not required for the slider --> 
+<link rel="stylesheet" href="<?php echo base_url() ?>assets/slider/demo.css">
+
+<!-- load jQuery and the plugin -->
+<script src="<?php echo base_url() ?>assets/slider/js/bjqs-1.3.min.js"></script>
+
 <?php
 	$sess = $this->session->userdata("lang");
 	$slider = isset($slider)?$slider:"";
 ?>
 
-<div class="cm-padding-bottom-36"></div>
-
-<div class="slider progressive-slider load bottom-padding">
-    <div class="container">
-      <div class="row">
-        <div class="sliders-box">
-		<?php
-			foreach( $slider as $row )
-			{
-        ?>
-          <div class="col-sm-12 col-md-12">
-            <div class="slid row">
-              <div class="col-sm-12 col-md-12">
-                <img class="slid-img" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $sess=="id"?$row->picture:$row->picture; ?>" 
-                width="1170" height="550" alt="">
-              </div>
-              <div class="slid-content col-sm-4 col-md-4">
-                <h1 class="title"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></h1>
-                <p class="descriptions">
-                	<?php echo PotongKata($sess=="id"?$row->text_id:$row->text_en, 50); ?>
-                </p>
-                <button class="btn btn-block btn-default btn-lg">More</button>
-              </div>
-            </div>
+<div class="row" id="slider-container">
+<div class="container">
+    <div id="left-slider" class="col-md-9">
+        <!--  Outer wrapper for presentation only, this can be anything you like -->
+          <div id="banner-fade">
+            <!-- start Basic Jquery Slider -->
+            <ul class="bjqs col-md-12">
+			<?php
+            foreach( $slider as $row )
+            {
+            ?>
+              <li>
+                  <img src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $sess=="id"?$row->picture:$row->picture; ?>" 
+                    class="img-thumbnail slider-select" title="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>"
+                    data-id_slider="<?php echo $row->id_slider ?>"
+                  >
+              </li>
+            <?php
+			}
+			?>
+            </ul>
+            <!-- end Basic jQuery Slider -->
           </div>
-		<?php
-	        }
-        ?>     
-    	</div>      
+          <!-- End outer wrapper -->
+    </div>
     
-        <div class="slider-nav col-sm-4 col-md-4">
-          <div class="nav-box">
-            <a class="next" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="9px" height="16px" viewBox="0 0 9 16" enable-background="new 0 0 9 16" xml:space="preserve">
-                <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#838383" points="1,0.001 0,1.001 7,8 0,14.999 1,15.999 9,8 "></polygon>
-              </svg>
-            </a>
-            <a class="prev" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="9px" height="16px" viewBox="0 0 9 16" enable-background="new 0 0 9 16" xml:space="preserve">
-                <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#838383" points="8,15.999 9,14.999 2,8 9,1.001 8,0.001 0,8 "></polygon>
-              </svg>
-            </a>
-            <div class="pagination switches"></div>	
-          </div>
+    <div id="right-slider" class="col-md-3">
+        <div  style="background:#669933; height:350px;" class="col-md-12">
+            <div class="title-box" style="color:#FFF; font-size:18px; padding-top:10px;"><i class="fa fa-info-circle"></i> Layanan Informasi Publik</div>
+            <ul class="">
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/selection_of_supreme_court_justice">Informasi Seleksi CHA</a></li>
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/behavioural_surveillance_judge">Informasi Pengawasan Perilaku Hakim</a></li>
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/financial_statements_and_planning">Laporan Keuangan dan Perencanaan</a></li>
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/research_result">Hasil Penelitian Komisi Yudisial</a></li>
+            </ul>
         </div>
-      </div>
     </div>
 </div>
+</div>
+
+
+<script>
+	var winH = $(document).height();
+	var winW = $(document).width();
+	var sW = "";
+	var sH = "";
+	
+	
+	if( winW < 768 )
+	{
+		sH = winW-150;
+		sW = winW;
+		//alert(sH)
+	}
+	else
+	{
+		sH = "350";
+		sW = "100%";
+	}
+	
+	
+	
+	jQuery(document).ready(function($) {
+	
+	  $('#banner-fade').bjqs({
+		height      : sH,
+		width       : sW,
+		responsive  : true,
+		centercontrols : true, 
+		showmarkers : false,
+		usecaptions : false
+	  });
+	
+	});
+	
+	$(".slider-select").click(function(e) {
+        var id_slider = $(this).attr("data-id_slider");
+		location.href = "<?php echo base_url() ?>frontend/slider_detail/" + id_slider;
+    });
+</script>

@@ -21,10 +21,10 @@
 		?>
             <li>
               <a href="<?php echo base_url() ?>frontend/news_detail/<?php echo $row->id_news ?>/<?php echo $sess=="id"?SEO($row->title_id):SEO($row->title_en); ?>">
-              	<big><strong class="text-primary"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
+              	<big><strong class="text-warning"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
               </a>
               <?php if( !empty($row->picture) ) {?>
-			  <img class="col-md-3" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->picture ?>" alt="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" title="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" width="200">
+			  <img class="col-md-3 col-sm-12 col-xs-12" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->picture ?>" alt="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" title="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" width="200">
 			  <?php } ?>
               <div class="meta">
 				<span class="time"><?php echo TglOnlyIndo($row->date) ?></span> | 

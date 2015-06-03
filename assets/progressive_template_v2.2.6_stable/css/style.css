@@ -6108,6 +6108,7 @@ blockquote small {
   margin: -4px 0 18px;
   padding: 0;
   position: relative;
+  color:#C10841;
 }
 .page-header .container {
   position: relative;
@@ -6155,7 +6156,7 @@ blockquote small {
   margin-left: -20px;
 }
 .title-box .title {
-  color: #7f7f7f;
+  color: #C10841;
   font-size: 18px;
   font-weight: normal;
   margin: 0 0 12px 0;

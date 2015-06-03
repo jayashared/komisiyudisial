@@ -18,7 +18,7 @@
 		  <nav>
 			<ul>
               <?php foreach( $rf->sub_sitemap as $rss ){ ?>
-			  <li><a href="#"><?php echo $sess=="id"?$rss->title_id:$rss->title_en; ?></a></li>
+			  <li><a href="<?php echo base_url() ?><?php echo $rss->url ?>"><?php echo $sess=="id"?$rss->title_id:$rss->title_en; ?></a></li>
               <?php } ?>
 			</ul>
 		  </nav>

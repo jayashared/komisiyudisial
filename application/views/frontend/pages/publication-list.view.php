@@ -27,7 +27,7 @@
 			  <a href="<?php echo base_url() ?>assets/uploads/files/<?php echo $row->file ?>" target="_blank" 
               	title="<?php echo $sess=="id"?"Klik disini untuk download":"Click here to Download"; ?>"
               >
-                  <img class="col-md-2" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->cover ?>" 
+                  <img class="col-md-2 col-sm-12 col-xs-12" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->cover ?>" 
                     alt="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" 
                   >
               </a>

@@ -18,7 +18,7 @@
     }
 
     //section libs
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/bootstrap/dropdown.min.js');
+    //$this->set_js_lib($this->default_theme_path.'/bootstrap/js/bootstrap/dropdown.min.js');
     $this->set_js_lib($this->default_theme_path.'/bootstrap/js/bootstrap/modal.min.js');
     $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/bootstrap-growl.min.js');
     $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/jquery.print-this.js');

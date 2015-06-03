@@ -34,7 +34,7 @@
 			{
 		?>
 		<li>
-            <a href="#">
+            <a href="<?php echo base_url() ?>frontend/news/0/<?php echo $rt->id_news_tag ?>">
                 <?php echo $sess=="id"?$rt->news_tag_id:$rt->news_tag_en ?>
             </a>
         </li>

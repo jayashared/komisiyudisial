@@ -23,14 +23,20 @@ class News_m  extends CI_Model  {
 		return $query->result();
 	}
 	
-	function get_list($limit=0, $offset=0, $id_news_category=NULL)
+	function get_list($limit=0, $offset=0, $id_news_category=NULL, $id_news_tag=NULL)
 	{
 		if( !empty($id_news_category) )
 			$this->db->where(array("id_news_category"=>$id_news_category));
 		
+		if( !empty($id_news_tag) )
+			$this->db->where(array("id_news_tag"=>$id_news_tag));
+		
 		$this->db->order_by("id_news desc");
 		$this->db->limit($limit, $offset);
-		$query = $this->db->get($this->table_name);
+		if( !empty($id_news_tag) )
+			$query = $this->db->get($this->table_tag_trans);
+		else
+			$query = $this->db->get($this->table_name);
 		//echo $this->db->last_query();
 		return $query->result();
 	}
@@ -42,11 +48,18 @@ class News_m  extends CI_Model  {
 		return $query->result();
 	}
 	
-	function get_count($id_news_category=NULL)
+	function get_count($id_news_category=NULL, $id_news_tag=NULL)
 	{
 		if( !empty($id_news_category) )
 			$this->db->where(array("id_news_category"=>$id_news_category));
-		return $this->db->count_all_results($this->table_name);
+
+		if( !empty($id_news_tag) )
+			$this->db->where(array("id_news_tag"=>$id_news_tag));
+
+		if( !empty($id_news_tag) )
+			return $this->db->count_all_results($this->table_tag_trans);
+		else
+			return $this->db->count_all_results($this->table_name);
 	}
 	
 	public function get_category($where=NULL)

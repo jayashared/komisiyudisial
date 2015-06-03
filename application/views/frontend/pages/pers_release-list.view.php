@@ -21,7 +21,7 @@
 		?>
             <li>
               <a href="<?php echo base_url() ?>frontend/pers_release_detail/<?php echo $row->id_pers_release ?>/<?php echo $sess=="id"?SEO($row->title_id):SEO($row->title_en); ?>">
-              	<big><strong class="text-primary"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
+              	<big><strong class="text-warning"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></strong></big>
               </a>
               <div class="meta">
 				<span class="time"><?php echo $sess=="id"?"Tanggal Posting: ":"Posting Date: " ?><?php echo TglOnlyIndo($row->modified_date) ?></span>

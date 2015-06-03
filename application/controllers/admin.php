@@ -1135,4 +1135,90 @@ class Admin extends CI_Controller {
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
 	}
+	
+	public function ganti_password()
+	{
+		try{
+			$konten = "admin/pages/ganti-password-form.view.php";
+			$data["konten"] = $konten;
+			//print_r($this->get_sitemap());
+			$data["sitemap"] = $this->get_sitemap();
+			$this->load->view("admin/themes/default2.php", $data);
+
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	function get_user_login() {
+		$member_in = $this->_is_member_in();
+		return $member_in["id_user"];
+	}
+	
+	public function check_password_lama()
+	{
+		try{
+			$this->load->model("user_m");
+			$password = $this->input->post("password_lama");
+			$id_user = $this->get_user_login();
+			
+			$where = array(
+				"id_user"=>$id_user,
+				"password"=>hash('sha256', $password)
+			);
+			
+			if($this->user_m->check_password_exist($where))
+			{
+				echo "true";
+			}
+			else
+			{
+				echo "false";
+			}
+		}catch(Exception $e){
+			echo "false";
+		}
+	}
+	
+	public function ganti_password_proses()
+	{
+		try{
+			$this->load->model("user_m");
+			
+			
+			$password = $this->input->post("password");
+			$id_user = $this->get_user_login();
+			
+			$data = array("password"=>hash('sha256', $password));
+			$where = array("id_user"=>$id_user);
+			
+			$result = $this->user_m->update_user($data, $where);
+			
+			if( $result )
+			{
+				$pesan = "<b>Berhasil!</b> Proses pendaftaran berhasil. Silahkan menunggu proses verifikasi 
+						oleh Administrator kami paling lambat 7 x 24 Jam";
+				$this->session->set_flashdata('pesan', $this->get_alert("success", $pesan));
+			}
+			else
+			{
+				$pesan = "<b>Gagal!</b> Proses pendaftaran gagal. Silahkan mencoba kembali atau hubungi Administrator kami";
+				$this->session->set_flashdata('pesan', $this->get_alert("fail"));
+			}
+			
+			redirect("admin/ganti_password");
+			
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function get_alert($info)
+	{
+		if( $info == "success" )
+		return '<div class="alert alert-success" role="alert"><b>Berhasil!</b> Data telah tersimpan</div>';
+		else
+		return '<div class="alert alert-danger" role="alert"><b>Gagal!</b> Data tidak tersimpan</div>';
+	}
+	
 }

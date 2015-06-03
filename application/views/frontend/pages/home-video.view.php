@@ -2,9 +2,13 @@
 	$sess = $this->session->userdata("lang"); 
 	$video = isset($video)?$video:"";
 ?>
+
 <div class="container">
     <div class="title-box">
-    <h2 class="title">Video</h2>
+        <a href="<?php echo base_url() ?>frontend/video" class="btn btn-default">
+            <?php echo $sess=="id"?"Berkas":"All Post"; ?>
+        <span class="glyphicon glyphicon-arrow-right"></span></a>
+        <h2 class="title"><?php echo $sess=="id"?"Video":"Video"; ?></h2>
     </div>
 </div>
 

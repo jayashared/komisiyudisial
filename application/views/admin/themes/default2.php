@@ -8,19 +8,8 @@
     <link rel="shortcut icon" HREF="<?php echo base_url() ?>assets/images/icon.png">
     <meta name="author" content="">
     <title><?php echo isset($title)?$title:"Halaman Administrator" ?></title>
-
-	<?php 
-	foreach($css_files as $file): ?>
-		<link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
-	<?php endforeach; ?>
-	<?php foreach($js_files as $file): ?>
-		<script src="<?php echo $file; ?>"></script>
-	<?php endforeach; ?>
-    
-    <?php $this->load->view("admin/include/css.view.php") ?>
-    <?php $this->load->view("admin/include/js.view.php") ?>
-    
-
+    <?php $this->load->view("admin/include/css.view2.php") ?>
+    <?php $this->load->view("admin/include/js.view2.php") ?>
 </head>
 <body>
     <div id="wrapper">
