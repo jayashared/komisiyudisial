@@ -16,6 +16,7 @@ class Sitemap_m  extends CI_Model  {
 		$this->db->like("sitemap_code", "02.", "after");
 		$this->db->order_by("title_id");
 		$query = $this->db->get("view_tbl_sitemap");		
+		//echo $this->db->last_query(); exit;
 		return $query->result();
 	}
 	

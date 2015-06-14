@@ -5,4 +5,4 @@ select		s.id_sitemap, s.sitemap_code, s.id_parent, s.name,
 				s.modified_date,
 				round((length(replace(s.sitemap_code,'.','')) / 2),0) AS sitemap_level,
 				concat(s.sitemap_code, ' - ', s.description) as parent
-from			tbl_sitemap s
+from			tbl_sitemap s 

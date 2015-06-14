@@ -1,5 +1,6 @@
 <?php 
 	$sitemap = isset($extra['sitemap'])?$extra['sitemap']:$sitemap["sitemap"];
+	//print_r($sitemap); exit;
 ?>
 
 <div class="navbar-default sidebar" role="navigation">

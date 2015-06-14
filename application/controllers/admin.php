@@ -401,7 +401,7 @@ class Admin extends CI_Controller {
 			$crud->required_fields('name', 'description', 'title_id', 'title_en', 'url');
 			$crud->unique_fields('sitemap_code','name');
 			
-			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'modified_by', 'modified_date');
+			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'modified_by', 'modified_date');
 			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'modified_by', 'modified_date');
 			$crud->columns('sitemap_code', 'title_id', 'url', 'modified_by');
 			
@@ -1036,8 +1036,8 @@ class Admin extends CI_Controller {
 			
 			$crud->set_field_upload('picture', 'assets/uploads/picture');
 			
-			$crud->add_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'midified_date');
-			$crud->edit_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'midified_date');
+			$crud->add_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
 			
 			$crud->display_as('picture','Gambar')
 				 ->display_as('title_id','Judul (Bahasa)')
@@ -1045,16 +1045,16 @@ class Admin extends CI_Controller {
 				 ->display_as('text_id','Isi (Indonesia)')
 				 ->display_as('text_en','Isi (English)')
 				 ->display_as('modified_by', 'Input / Edit oleh')
-				 ->display_as('midified_date', 'Input / Edit Tanggal')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
 				 ;
-			$crud->columns('title_id', 'title_en', 'is_active', 'modified_by');
+			$crud->columns('title_id', 'title_en', 'picture', 'modified_by');
 			
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));
 			$crud->callback_field('midified_date',array($this,'format_date_callback'));
 			
 			$crud->change_field_type('modified_by','readonly');
-			$crud->change_field_type('midified_date','readonly');
+			$crud->change_field_type('modified_date','readonly');
 			
 			$crud->order_by('id_gallery','desc');
 			$crud->unset_read();
@@ -1296,7 +1296,7 @@ class Admin extends CI_Controller {
 	}
  
 	function set_password_input_to_empty() {
-		return "<input type='password' name='password' value='' />";
+		return "<input type='password' class='form-control' name='password' value='' />";
 	}
 	
 	
@@ -1306,7 +1306,7 @@ class Admin extends CI_Controller {
 		{
 			$crud = new grocery_CRUD();
 			$crud->set_table('tbl_user');
-			$crud->set_subject('Pengguna');
+			$crud->set_subject('Admin');
 						
 			$crud->required_fields('username','email','password');
 			
