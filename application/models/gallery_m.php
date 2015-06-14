@@ -12,7 +12,7 @@ class Gallery_m  extends CI_Model  {
 		$this->sess = $this->session->userdata("lang");
     }
 	
-	function get_latest($limit=10)
+	function get_latest($limit=5)
 	{
 		$this->db->order_by( "id_gallery desc");
 			

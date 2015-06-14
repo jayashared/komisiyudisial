@@ -39,8 +39,9 @@
 					<?php echo($output) ?>
                     <div style="clear:both;"></div>
         		</div>
-                
+                <div style="clear:both;"></div>
             </div>
+            <div style="clear:both;"></div>
         </div>
         <!-- /#page-wrapper -->
     </div>

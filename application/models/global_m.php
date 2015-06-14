@@ -55,4 +55,11 @@ class Global_m  extends CI_Model  {
 			return false;
 	}
 	
+	function get_detail_contact_us($id_contact_us=NULL)
+	{
+		$this->db->where(array("id_contact_us"=>$id_contact_us));
+		$query = $this->db->get("tbl_contact_us");
+		return $query->result();
+	}
+	
 }

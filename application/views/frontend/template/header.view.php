@@ -1,3 +1,41 @@
+<?php $sess = $this->session->userdata("lang"); ?>
+<div id="top-box">
+  <div class="top-box-wrapper bg-danger">
+	<div class="container">
+	  <div class="row">
+		<div class="col-xs-9 col-sm-2">
+		  <div class="btn-group language btn-select">
+			<a class="btn dropdown-toggle btn-default" role="button" data-toggle="dropdown" href="#">
+			  <span class="visible-xs"></span><!-- 
+			  --><?php echo $sess=="id"?"Bahasa":"English"; ?>
+			  <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+			  <li class="set-lang" data-lang="EN" id="lang-id"><a href="#">English</a></li>
+			  <li class="set-lang" data-lang="ID" id="lang-en"><a href="#">Bahasa</a></li>
+			</ul>
+		  </div>
+		  
+		</div>
+		<?php
+			$newsticker = isset($sitemap["newsticker"])?$sitemap["newsticker"]:"";
+		?>
+		<div class="col-xs-3 col-sm-10">
+            <marquee scrolldelay="100" onmouseover="stop()" onmouseout="start()" style="margin:0px !important; color:#FFFFFF;"> 
+                <strong>Info Update: </strong>
+				<?php foreach( $newsticker as $rn ){ ?>
+                    <i class="fa fa-calendar"></i> <?php echo TglIndo($rn->date) ?> - 
+                    <a href="<?php echo base_url() ?>frontend/news_detail/<?php echo $rn->id_news ?>/<?php echo $sess=="id"?SEO($rn->title_id):SEO($rn->title_en); ?>" style="color:#FFF;">
+                        <?php echo $sess=="id"?$rn->title_id:$rn->title_en; ?>
+                    </a> | 
+                <?php } ?>
+            </marquee>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div><!-- #top-box -->
+
 <header class="header header-two">
   <div class="header-wrapper">   
     <div class="container">           
@@ -30,17 +68,11 @@
 			</div><!-- .primary -->
 		  </div>
 		</div>
-        
-        <div style="float:right; position:absolute; right:30px; top:10px; z-index:100000000">
-            <span class="label label-warning set-lang" id="lang-id">ID</span>
-            <span class="label label-warning set-lang" id="lang-en">EN</span>
-        </div>
-        
-        
+ 
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>×</a>
 		  <form name="search-form" class="search-form" method="get" action="<?php echo base_url() ?>frontend/searching_process">
-			<input class="search-string form-control" type="search" placeholder="Pencarian" name="query">
+			<input class="search-string form-control" type="search" placeholder="<?php echo $sess=="id"?"Pencarian":"Search"; ?>" name="query">
 			<button class="search-submit">
 			  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
 				<path fill="#231F20" d="M12.001,10l-0.5,0.5l-0.79-0.79c0.806-1.021,1.29-2.308,1.29-3.71c0-3.313-2.687-6-6-6C2.687,0,0,2.687,0,6
@@ -57,29 +89,6 @@
 </header><!-- .header -->
 <br />
 
-<?php
-	$sess = $this->session->userdata("lang");
-	$newsticker = isset($sitemap["newsticker"])?$sitemap["newsticker"]:"";
-?>
-
-<div class="row">
-    <div class="container">
-        <div class="col-md-2" style="background:#C10841; color:#FFFFFF; height:30px; padding:3px 0px 0px 15px;">
-        	<i class="fa fa-info"></i> Info Update
-        </div> 
-        <div class="col-md-10 bg-warning" style="background:#FFCC66; color:#FFF; height:30px; padding:5px;">
-        	<marquee scrolldelay="100" onmouseover="stop()" onmouseout="start()" style="margin:0px !important;"> 
-            	<?php foreach( $newsticker as $rn ){ ?>
-                	<i class="fa fa-calendar"></i> <?php echo TglIndo($rn->date) ?> - 
-                    <a href="<?php echo base_url() ?>frontend/news_detail/<?php echo $rn->id_news ?>/<?php echo $sess=="id"?SEO($rn->title_id):SEO($rn->title_en); ?>" style="color:#FFF;">
-						<?php echo $sess=="id"?$rn->title_id:$rn->title_en; ?>
-                    </a> | 
-                <?php } ?>
-            </marquee>
-        </div>
-    </div>
-</div>
-
 <style>
 	.set-lang{ cursor:pointer; }
 </style>
@@ -88,16 +97,7 @@
 
 <script>
 	$(document).ready(function(e) {
-        if( "<?php echo $sess ?>"=="id" )
-		{
-			$("#lang-id").removeClass("label-warning");
-			$("#lang-id").addClass("label-danger");
-		}
-		else
-		{
-			$("#lang-en").removeClass("label-warning");
-			$("#lang-en").addClass("label-danger");
-		}
+        
     });
 
 	/*$(".set-lang").mouseover(function(e) {
@@ -106,7 +106,8 @@
     });*/
 	
 	$(".set-lang").click(function(e) {
-        var lang = $(this).text();
+        var lang = $(this).attr("data-lang");
+		//alert(lang)
 		location.href = "<?php echo base_url() ?>frontend/set_lang/" + lang + "?curl=<?php echo current_url(); ?>";
     });
 </script>

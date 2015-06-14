@@ -10,12 +10,15 @@ body {
 
 #wrapper {
     width: 100%;
+	border:0px solid red;
 }
 
 #page-wrapper {
     padding: 0 15px;
     min-height: 568px;
     background-color: #fff;
+	border:0px solid green;
+	z-index:100000000000000000000000000;
 }
 
 @media(min-width:768px) {
@@ -129,10 +132,13 @@ body {
 
 @media(min-width:768px) {
     .sidebar {
+		max-height:500px;
+		overflow:auto;
         z-index: 1;
         position: absolute;
         width: 250px;
         margin-top: 51px;
+		border:0px solid black;
     }
 
     .navbar-top-links .dropdown-messages,

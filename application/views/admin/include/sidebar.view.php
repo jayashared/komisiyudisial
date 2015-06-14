@@ -7,6 +7,7 @@
         <ul class="nav" id="side-menu">
             
             <?php
+				$i = 0;
             	foreach( $sitemap as $row )
 				{
 			?>

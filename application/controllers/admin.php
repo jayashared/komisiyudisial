@@ -83,7 +83,7 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$this->news();
+		$this->agenda();
 	}
 	
 	public function news()
@@ -402,7 +402,7 @@ class Admin extends CI_Controller {
 			$crud->unique_fields('sitemap_code','name');
 			
 			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'modified_by', 'modified_date');
-			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'modified_by', 'modified_date');
 			$crud->columns('sitemap_code', 'title_id', 'url', 'modified_by');
 			
 			$crud->display_as('title_id', 'Judul (Bahasa)')
@@ -1069,6 +1069,210 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	public function email_configuration()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_email_configuration');
+			$crud->set_subject('Konfigurasi Email');
+			$crud->set_relation('modified_by','tbl_user','email');
+			
+			$crud->required_fields('smtp_host', 'smtp_user', 'smtp_pass');
+			
+			$crud->fields('useragent', 'protocol', 'mailpath', 'smtp_host', 'smtp_user', 'name', 'smtp_pass', 
+						'smtp_port', 'smtp_timeout', 'wordwrap', 'wrapchars', 'mailtype', 'charset', 'validate', 
+						'priority', 'crlf', 'newline', 'bcc_batch_mode', 'bcc_batch_size', 
+						'subjek', 'format_email_balasan', 
+						'subjek_lupa_password', 'format_lupa_password',
+						'modified_by', 'modified_date');
+			
+			$crud->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('subjek', 'Subjek Hubungi Kami')
+				 ->display_as('format_email_balasan', 'Format Hubungi Kami')
+				 ->display_as('name', 'Nama Pengirim')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('smtp_host', 'smtp_user', 'modified_by');
+			
+			$crud->callback_before_update(array($this,'get_change_by_callback'));
+			$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+	
+			$crud->unset_print();
+			$crud->unset_export();
+			$crud->unset_delete();
+			$crud->unset_add();
+			$crud->unset_read();
+			
+			$kategori = $this->get_sitemap();
+			
+			$output = $crud->render($kategori);
+			$this->load->view('admin/themes/default', $output);
+
+			
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
+	public function get_email_config()
+	{
+		$this->load->library('email');
+		$this->load->model("email_m");
+		// Kirim Email
+		// Configuration
+		
+		$dc = $this->email_m->get_config();
+		$r = isset( $dc[0] )?$dc[0]:"";
+		
+		if( isset($r->protocol) and !empty($r->protocol))
+			$config['protocol'] = $r->protocol;
+		if( isset($r->mailpath) and !empty($r->mailpath))
+			$config['mailpath'] = $r->mailpath;
+		if( isset($r->charset) and !empty($r->charset))
+			$config['charset'] = $r->charset;
+		if( isset($r->wordwrap) and !empty($r->wordwrap))
+			$config['wordwrap'] = strtoupper($r->wordwrap)=="TRUE"?TRUE:FALSE;
+		if( isset($r->useragent) and !empty($r->useragent))
+			$config['useragent'] = $r->useragent;
+		if( isset($r->smtp_host) and !empty($r->smtp_host))	
+			$config['smtp_host'] = $r->smtp_host;
+		if( isset($r->smtp_user) and !empty($r->smtp_user))
+			$config['smtp_user'] = $r->smtp_user;
+		if( isset($r->smtp_pass) and !empty($r->smtp_pass))
+			$config['smtp_pass'] = $r->smtp_pass;
+		if( isset($r->smtp_port) and !empty($r->smtp_port))
+			$config['smtp_port'] = 465;
+		if( isset($r->smtp_timeout) and !empty($r->smtp_timeout))
+			$config['smtp_timeout'] = $r->smtp_timeout;
+		if( isset($r->wrapchars) and !empty($r->wrapchars))
+			$config['wrapchars'] = $r->wrapchars;
+		if( isset($r->mailtype) and !empty($r->mailtype))
+			$config['mailtype'] = $r->mailtype;
+		if( isset($r->validate) and !empty($r->validate))
+			$config['validate'] = strtoupper($r->wordwrap)=="TRUE"?TRUE:FALSE;
+		if( isset($r->priority) and !empty($r->priority))
+			$config['priority'] = $r->priority;
+		if( isset($r->crlf) and !empty($r->crlf))
+			$config['crlf'] = "\r\n";
+		if( isset($r->newline) and !empty($r->newline))
+			$config['newline'] = "\r\n";
+		if( isset($r->bcc_batch_mode) and !empty($r->bcc_batch_mode))
+			$config['bcc_batch_mode'] = strtoupper($r->bcc_batch_mode)=="TRUE"?TRUE:FALSE;
+		if( isset($r->bcc_batch_size) and !empty($r->bcc_batch_size))
+			$config['bcc_batch_size'] = $r->bcc_batch_size;
+			
+		return $config;
+	}
+	
+	function get_is_reply_send_mail($post_array=NULL, $primary_key=NULL)
+	{
+		$this->load->library('email');
+		$this->load->model('global_m');
+		$this->load->model('email_m');
+		
+		$data = $this->global_m->get_detail_contact_us($primary_key);
+		$to = isset($data[0]->email)?$data[0]->email:"";
+		$subject = isset($data[0]->subject)?$data[0]->subject:"No Subject Available";
+		$answer = isset($data[0]->answer)?$data[0]->answer:"No Message Available";
+		
+		$dc = $this->email_m->get_config();
+		$r = isset( $dc[0] )?$dc[0]:"";
+		$message =  $r->format_email_balasan;
+		$message = str_replace('{subjek}', $subject, $message);
+		$message = str_replace('{jawaban}', $answer, $message);
+		
+		$this->email->initialize( $this->get_email_config() );
+		
+		if( isset($to) and !empty($to) )
+		{
+			$this->email->from($r->smtp_user, $r->name);
+			$this->email->to($to);
+			$this->email->subject($r->subjek);
+			$this->email->message($message);
+			
+			if( $this->email->send() )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	
+	function get_is_reply($post_array) {		
+		$member_in = $this->_is_member_in();
+		$post_array['modified_by'] = $member_in["id_user"];
+		
+		$post_array['is_reply'] = 1;
+		return $post_array;
+	}
+	
+	public function contact_us()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_contact_us');
+			$crud->set_subject('Kontak Kami');
+			$crud->set_relation('modified_by','tbl_user','email');
+			$crud->set_relation('is_reply', 'tbl_opsi', 'opsi');
+			
+			//$crud->required_fields('smtp_host', 'smtp_user', 'smtp_pass');
+			
+			$crud->fields('name', 'email', 'subject', 'message', 'answer', 'is_reply',
+						'modified_by', 'modified_date');
+			
+			$crud->display_as('name', 'Nama')
+				 ->display_as('subject', 'Subyek')
+				 ->display_as('is_reply', 'Di Jawab')
+				 ->display_as('message', 'Pesan')
+				 ->display_as('modified_by', 'Input / Edit oleh')
+				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ;
+			$crud->columns('name', 'email', 'subject', 'is_reply', 'modified_by');
+			
+			
+			$crud->callback_before_update(array($this,'get_is_reply'));
+			$crud->callback_after_update(array($this, 'get_is_reply_send_mail'));
+			//$crud->callback_before_update(array($this,'get_change_by_callback'));
+			//$crud->callback_before_insert(array($this,'get_change_by_callback'));
+			$crud->callback_field('modified_date',array($this,'format_date_callback'));
+			
+			$crud->change_field_type('name','readonly');
+			$crud->change_field_type('email','readonly');
+			$crud->change_field_type('subject','readonly');
+			$crud->change_field_type('message','readonly');
+			
+			$crud->change_field_type('is_reply','readonly');
+			$crud->change_field_type('modified_by','readonly');
+			$crud->change_field_type('modified_date','readonly');
+	
+			//$crud->unset_print();
+			//$crud->unset_export();
+			//$crud->unset_delete();
+			$crud->unset_add();
+			$crud->unset_read();
+			
+			$kategori = $this->get_sitemap();
+			
+			$output = $crud->render($kategori);
+			$this->load->view('admin/themes/default', $output);
+
+			
+		}catch(Execption $e)
+		{
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
 	function encrypt_password($post_array) {
 		//$this->load->library('encrypt');
 		
@@ -1187,6 +1391,18 @@ class Admin extends CI_Controller {
 			
 			
 			$password = $this->input->post("password");
+			$id_user = $this->get_user_login();
+			$where = array(
+				"id_user"=>$id_user,
+				"password"=>hash('sha256', $password)
+			);
+			
+			if(!$this->user_m->check_password_exist($where))
+			{
+				echo "Password Lama tidak Sesuai"; exit;
+			}
+			
+			
 			$id_user = $this->get_user_login();
 			
 			$data = array("password"=>hash('sha256', $password));

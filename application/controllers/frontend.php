@@ -928,14 +928,30 @@ class Frontend extends CI_Controller {
 		try
 		{	
 			$this->load->model("global_m");
-			
 			$sess = $this->session->userdata("lang");
 			
+			$name = $this->input->post("name");
+			$email = $this->input->post("email");
+			$subject = $this->input->post("subject");
+			$message = $this->input->post("message");
+			
+			$ct_captcha = $this->input->post("ct_captcha");
+			
+			if( empty($name) or empty($email) or empty($subject) or empty($message) )
+			{
+				echo "Form not Complete. Action denied."; exit;
+			}
+			
+			if(!$this->securimages_lib->check_captha($ct_captcha) or empty($ct_captcha))
+			{
+				echo "Access Denied. Do not Try to do this action."; exit;
+			}
+			//exit;
 			$data = array(
-				"name"=>$this->input->post("name"),
-				"email"=>$this->input->post("email"),
-				"subject"=>$this->input->post("subject"),
-				"message"=>$this->input->post("message")
+				"name"=>$name,
+				"email"=>$email,
+				"subject"=>$subject,
+				"message"=>$message
 			);
 			
 			$resul = $this->global_m->insert_contact_us($data);

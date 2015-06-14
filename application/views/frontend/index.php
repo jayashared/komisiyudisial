@@ -8,8 +8,8 @@
   <?php $this->load->view("frontend/template/css.view.php") ?>
   
 </head>
-<body id="boxed-bg" class="boxed fixed-header">
 
+<body id="boxed-bg" class="boxed fixed-header">
     <div class="page-box">
            
         <div class="page-box-content">

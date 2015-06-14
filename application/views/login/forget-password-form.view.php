@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+    <title>Lupa Password</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url() ?>assets/startbootstrap-sb-admin-2-1.0.5/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -39,7 +39,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-question"></i> Login</h3>
+                        <h3 class="panel-title"><i class="fa fa-lock"></i> Lupa Password</h3>
                     </div>
                     <div class="panel-body">
                     	<?php
@@ -49,22 +49,16 @@
 								echo $this->session->flashdata('pesan'); 
 							}
 						?>
-                        <form role="form" action="<?php echo base_url() ?>login/proses" method="post">
+                        <form role="form" action="<?php echo base_url() ?>login/lupa_password_proses" method="post">
                             <fieldset>
                                 <div class="form-group">
-                                	
+                                	<label>Masukkan alamat E-Mail anda</label>
                                     <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <div class="checkbox">
-                                    <a href="<?php base_url() ?>login/lupa_password">
-                                        <i class="fa fa-question"></i> Lupa Password
-                                    </a>
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+                                	<div class="col-md-6"><button type="button" id="kembali_login" class="btn btn-lg btn-block btn-default">Kembali</button></div>
+                                    <div class="col-md-6"><button type="submit" id="kirim_password" class="btn btn-lg btn-block btn-success">Kirim</button></div>
+                            	</div>
                             </fieldset>
                         </form>
                     </div>
@@ -81,7 +75,20 @@
     <script src="<?php echo base_url() ?>assets/startbootstrap-sb-admin-2-1.0.5/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="<?php echo base_url() ?>assets/startbootstrap-sb-admin-2-1.0.5/dist/js/sb-admin-2.js"></script>
-
+	
+    <script>
+		$("#kembali_login").click(function(e) {
+            location.href = "<?php echo base_url() ?>login";
+        });
+		
+		$("#kirim_password").click(function(e) {
+            if( confirm("Anda Yakin mau me-reset Password ?") )
+				return true;
+			else
+				return false;
+        });
+	</script>
+    
 </body>
 
 </html>

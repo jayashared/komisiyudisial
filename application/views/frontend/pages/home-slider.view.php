@@ -10,8 +10,8 @@
 		margin-left:-40px; 
 		list-style:square; 
 		color:#FFF; 
-		margin:0px 0px 18px -60px;
-		padding:0px 0px 10px 10px;
+		margin:0px 0px 0px -65px;
+		padding:0px 0px 5px 10px;
 		border-bottom:1px dotted #FFF;
 		border-left:5px solid #FFF;
 		display:block; 
@@ -67,8 +67,29 @@
                 <li class=""><a href="<?php echo base_url() ?>frontend/static_content/behavioural_surveillance_judge">Informasi Pengawasan Perilaku Hakim</a></li>
                 <li class=""><a href="<?php echo base_url() ?>frontend/static_content/financial_statements_and_planning">Laporan Keuangan dan Perencanaan</a></li>
                 <li class=""><a href="<?php echo base_url() ?>frontend/static_content/research_result">Hasil Penelitian Komisi Yudisial</a></li>
+            	<li>
+                	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td><i class="fa fa-phone"></i>&nbsp;</td>
+                        <td>021 - 3190 3876</td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td>021 - 3190 3902</td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                        <td>021 - 3190 3802</td>
+                      </tr>
+                      <tr>
+                        <td><i class="fa fa-envelope"></i>&nbsp;</td>
+                        <td><small>pengaduan@komisiyudisial.go.id</small></td>
+                      </tr>
+                    </table>
+                </li>
             </ul>
-        </div>
+            
+      </div>
     </div>
 </div>
 </div>
