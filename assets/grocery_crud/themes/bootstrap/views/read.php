@@ -1,6 +1,6 @@
 <?php
-$this->set_css($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.css');
-$this->set_css($this->default_theme_path.'/bootstrap/css/font-awesome/css/font-awesome.css');
+$this->set_css($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.min.css');
+$this->set_css($this->default_theme_path.'/bootstrap/css/font-awesome/css/font-awesome.min.css');
 $this->set_css($this->default_theme_path.'/bootstrap/css/common.css');
 $this->set_css($this->default_theme_path.'/bootstrap/css/general.css');
 $this->set_css($this->default_theme_path.'/bootstrap/css/add-edit-form.css');
@@ -12,23 +12,31 @@ $this->set_js_lib($this->default_theme_path.'/bootstrap/js/common/common.min.js'
 
 $this->set_js_config($this->default_theme_path.'/bootstrap/js/form/view.js');
 ?>
-<br />
 <div class="crud-form" data-unique-hash="<?php echo $unique_hash; ?>">
-    <div class="">
-        <div class="">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-	                <?php echo $this->l('list_view'); ?> <?php echo $subject?>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-label">
+                    <div class="floatL l5">
+                        <?php echo $this->l('list_view'); ?> <?php echo $subject?>
+                    </div>
+                    <div class="floatR r5 minimize-maximize-container minimize-maximize">
+                        <i class="fa fa-caret-up"></i>
+                    </div>
+                    <div class="floatR r5 gc-full-width">
+                        <i class="fa fa-expand"></i>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="panel-body">
+                <div class="form-container table-container">
                     <?php echo form_open( $update_url, 'method="post" id="crudForm"  enctype="multipart/form-data" class="form-horizontal"'); ?>
 
                     <?php foreach($fields as $field) { ?>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-3 control-label">
                                 <?php echo $input_fields[$field->field_name]->display_as?>:
                             </label>
-                            <div class="col-sm-10 read-row">
+                            <div class="col-sm-9 read-row">
                                 <?php echo $input_fields[$field->field_name]->input; ?>
                             </div>
                         </div>

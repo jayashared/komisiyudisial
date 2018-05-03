@@ -63,16 +63,16 @@
         ?></div>
 
  		<div class="">
-        	<div class="panel panel-success">
+        	<div class="panel panel-primary">
                 <div class="panel-heading">
-					<?php echo $subject_plural; ?>                                
+                        <?php echo $subject_plural; ?>                
                 </div>
                 <div class="panel-body">
                     <?php echo form_open("", 'method="post" autocomplete="off" id="gcrud-search-form"'); ?>
                         <div class="form-group">
                             <?php if(!$unset_add){?>
                                 <div class="floatL t5">
-                                    <a class="btn btn-info" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?></a>
+                                    <a class="btn btn-default" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?></a>
                                 </div>
                             <?php } ?>
                             <div class="floatR">
@@ -102,23 +102,24 @@
                             </div>
                             <div class="clear"></div>
                         </div>
-        			    <table class="table grocery-crud-table table-hover">
+        			    <table class="table grocery-crud-table table-striped">
         					<thead>
         						<tr class="bg-primary">
         							<th colspan="2">
                                         <?php echo $this->l('list_actions'); ?>
                                     </th>
                                     <?php foreach($columns as $column){?>
-                                        <th class="column-with-ordering" data-order-by="<?php echo $column->field_name; ?>">
-											<?php echo $column->display_as; ?>
-                                        </th>
+                                        <th class="column-with-ordering" data-order-by="<?php echo $column->field_name; ?>"><?php echo $column->display_as; ?></th>
                                     <?php }?>
         						</tr>
-        						<tr class="filter-row gc-search-row bg-silver">
+        						
+        						<tr class="filter-row gc-search-row bg-success">
         							<td style="border-right: none;">
-        							     <div class="floatL t5">
-        							         <input type="checkbox" class="select-all-none" />
-        							     </div>
+                                        <?php if (!$unset_delete) { ?>
+            							     <div class="floatL t5">
+            							         <input type="checkbox" class="select-all-none" />
+            							     </div>
+                                         <?php } ?>
         							 </td>
         							<td style="border-left: none;">
                                         <div class="floatL">
@@ -137,7 +138,7 @@
                                     </td>
                                     <?php foreach($columns as $column){?>
                                         <td>
-                                            <input type="text" class="form-control searchable-input input-sm floatL" placeholder="Cari..." name="<?php echo $column->field_name; ?>" />
+                                            <input type="text" class="form-control searchable-input floatL" placeholder="Search <?php echo $column->display_as; ?>" name="<?php echo $column->field_name; ?>" />
                                         </td>
                                     <?php }?>
         						</tr>
@@ -149,7 +150,7 @@
 
                             <!-- Table Footer -->
         					<tfoot>
-                                <tr>
+                                <tr class="bg-warning">
                                     <td colspan="<?php echo $colspans; ?>">
 
                                             <!-- "Show 10/25/50/100 entries" (dropdown per-page) -->
@@ -265,4 +266,3 @@
 
             </div>
         </div>
-	</div>

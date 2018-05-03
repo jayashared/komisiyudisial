@@ -8,7 +8,7 @@
      * @class Datagrid
      * @constructor
      */
-    var Datagrid = function (gcrud_container, options) {
+    var Datagrid = function (gcrud_container) {
 
         /**
          *
@@ -25,6 +25,7 @@
         };
 
         this.facadeInitListeners = function () {
+            this.setLocalStorage();
             this.datagridInit();
             this.listenerSelectRow();
             this.listenerLoadMoreButton();
@@ -37,6 +38,7 @@
             this.listenerExportButton();
             this.listenerPerPage();
             this.listenerPagingButtons();
+
         };
 
     };
@@ -53,6 +55,10 @@
     Datagrid.CLASS_PAGING_NEXT          = 'paging-next';
     Datagrid.CLASS_PAGING_FIRST         = 'paging-first';
     Datagrid.CLASS_PAGING_LAST          = 'paging-last';
+
+    Datagrid.prototype.setLocalStorage = function () {
+        //TODO: check local Storage if exist and if we do have previous data
+    };
 
     Datagrid.prototype.datagridInit = function () {
         var success_message_container = this.gcrud_container.find('.success-message');
@@ -102,7 +108,7 @@
 
     Datagrid.prototype.listenerRefreshButton = function () {
         var datagrid_object = this;
-        datagrid_object.gcrud_container.find('.gc-refresh').click(function (event) {
+        datagrid_object.gcrud_container.find('.gc-refresh').click(function () {
             clearTimeout(datagrid_object.search_timer);
             datagrid_object.SearchAndOrderingTrigger();
         });
@@ -195,8 +201,7 @@
 
     Datagrid.prototype.pagingCalculations = function () {
         var page_number_value   = parseInt(this.gcrud_container.find('.page-number-hidden').val(), 10),
-            max_paging          = this.getMaxPaging(),
-            per_page            = parseInt(this.gcrud_container.find('.per_page').val(), 10);
+            max_paging          = this.getMaxPaging();
 
         if (page_number_value <= 0) {
             page_number_value = 1;
@@ -368,8 +373,7 @@
             $(this).closest('.grocery-crud-table').find('th.active, td.active').removeClass('active');
 
             $(this).parent().find('.column-with-ordering').each(function () {
-                var column_title = $.trim($(this).text());
-                $(this).html(column_title);
+                $(this).html($.trim($(this).text()));
             });
 
             $(this).addClass('active');
@@ -424,8 +428,6 @@
                 datagrid_object.gcrud_container.find('.search-button .clear-all-search').click(function () {
                     datagrid_object.gcrud_container.find('.search-button>input.search-input').val('').trigger('change');
                 });
-            } else {
-
             }
 
             datagrid_object.gcrud_container.find('.page-number-hidden').val('1');
@@ -667,7 +669,7 @@
                 });
 
                 datagrid_object.gcrud_container.find('.delete-confirmation').modal();
-                datagrid_object.gcrud_container.find('.delete-confirmation').on('hidden.bs.modal', function (e) {
+                datagrid_object.gcrud_container.find('.delete-confirmation').on('hidden.bs.modal', function () {
                     datagrid_object.gcrud_container.find('.delete-confirmation-button').unbind('click');
                 });
 

@@ -148,6 +148,7 @@
   color: rgba(0,152,202,.4);
 }
 .phone-header a svg path,
+.webmail-header a svg path,
 .search-header a svg path,
 .product .actions a svg path,
 .sidebar .wishlist .add-cart:hover path,

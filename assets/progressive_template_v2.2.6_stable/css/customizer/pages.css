@@ -138,10 +138,11 @@
   margin-bottom: 2px;
 }
 #boxed-bg {
-  background-image: url('../../img/content/302137_10550328022015_KY.jpg');
+  /*background-image: url('../../img/content/302137_10550328022015_KY.jpg');
   background-position: 50% 0;
   background-attachment: fixed;
-  background-size: cover;
+  background-size: cover;*/
+  background:#666666;
 }
 .cm-gradient {
   background: #850066;

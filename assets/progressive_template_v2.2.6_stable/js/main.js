@@ -1484,7 +1484,7 @@ function initialize() {
   
 	var map = new google.maps.Map($this[0], mapOptions);
 	
-	var image = 'img/svg/map-marker.svg';
+	var image = '../assets/progressive_template_v2.2.6_stable/img/svg/map-marker.svg';
 	
 	if (dataContent !== undefined && dataContent !== false) {
 	  contentString = '<div class="map-content">' +
@@ -1845,6 +1845,8 @@ jQuery(document).ready(function(){
     $('.btn-group').removeClass('open');
     $('.phone-active').fadeIn().addClass('open');
   });
+  
+  
   $('.search-header > a').click(function(event){
 	event.preventDefault();
     $('.btn-group').removeClass('open');

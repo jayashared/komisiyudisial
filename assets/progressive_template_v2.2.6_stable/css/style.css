@@ -3904,7 +3904,7 @@ blockquote small {
 
 /* Phone & Search Header */
 .phone-header,
-.search-header {
+.search-header{
   border-right: 1px solid #ccc;
   border-right: 1px solid rgba(204,204,204,.8);
   color: #1e1e1e;
@@ -3916,19 +3916,37 @@ blockquote small {
   vertical-align: top;
   width: 41px;
 }
+
+.webmail-header {
+  border-right: 0px solid #ccc;
+  border-right: 0px solid rgba(204,204,204,.8);
+  color: #1e1e1e;
+  display: inline-block;
+  height: 30px;
+  margin: 8px 0;
+  padding-right:15px;
+  position: relative;
+  text-align: center;
+  vertical-align: top;
+  width: 41px;
+}
+
 .phone-header:last-child,
-.search-header:last-child {
+.search-header:last-child,
+.webmail-header:last-child {
   border-right: 0 none;
 }
 .phone-header a,
-.search-header a {
+.search-header a,
+.webmail-header a {
   display: block;
   height: 23px;
   padding-top: 7px;
   width: 100%;
 }
 .phone-header a svg,
-.search-header a svg {
+.search-header a svg,
+.webmail-header a svg {
   overflow: visible;
   opacity: 1;
   filter: alpha(opacity=100);
@@ -3937,7 +3955,8 @@ blockquote small {
   -webkit-transform: translateZ(0px);
 }
 .phone-header a:hover svg,
-.search-header a:hover svg {
+.search-header a:hover svg,
+.webmail-header a:hover svg {
   opacity: .5;
   filter: alpha(opacity=50);
   -webkit-transition: all .3s linear;
@@ -3946,7 +3965,8 @@ blockquote small {
 
 /* Phone & Search Active Header */
 .phone-active,
-.search-active {
+.search-active,
+.webmail-active {
   bottom: 0;
   display: none;
   margin: 18px 0;

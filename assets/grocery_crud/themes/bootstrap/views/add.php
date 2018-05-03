@@ -1,6 +1,6 @@
 <?php
     $this->set_css($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.css');
-    $this->set_css($this->default_theme_path.'/bootstrap/css/font-awesome/css/font-awesome.css');
+    $this->set_css($this->default_theme_path.'/bootstrap/css/font-awesome/css/font-awesome.min.css');
     $this->set_css($this->default_theme_path.'/bootstrap/css/common.css');
     $this->set_css($this->default_theme_path.'/bootstrap/css/general.css');
     $this->set_css($this->default_theme_path.'/bootstrap/css/add-edit-form.css');
@@ -11,7 +11,6 @@
         $this->set_js_config($this->default_theme_path.'/bootstrap/js/form/add.min.js');
     } else {
         $this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
-        $this->set_js_lib($this->default_theme_path. '/bootstrap/js/jquery-ui/jquery-ui.custom.min.js');
         $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/jquery.form.min.js');
         $this->set_js_lib($this->default_theme_path.'/bootstrap/js/common/common.min.js');
         $this->set_js_config($this->default_theme_path.'/bootstrap/js/form/add.js');
@@ -21,23 +20,23 @@
 	$this->set_js_config($this->default_javascript_path.'/jquery_plugins/config/jquery.noty.config.js');
 ?>
 <br />
-
 <div class="crud-form" data-unique-hash="<?php echo $unique_hash; ?>">
     <div class="">
         <div class="">
-            <div class="panel panel-success">
+            <div class="">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-					<?php echo $this->l('form_add'); ?> <?php echo $subject?>
+                        <?php echo $this->l('form_add'); ?> <?php echo $subject?>
                 </div>
                 <div class="panel-body">
                         <?php echo form_open( $insert_url, 'method="post" id="crudForm"  enctype="multipart/form-data" class="form-horizontal"'); ?>
 
                             <?php foreach($fields as $field) { ?>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">
+                                    <label class="col-sm-3 control-label">
                                         <?php echo $input_fields[$field->field_name]->display_as; ?><?php echo ($input_fields[$field->field_name]->required) ? "<span class='required'>*</span> " : ""; ?>
                                     </label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-9">
                                         <?php echo $input_fields[$field->field_name]->input?>
                                     </div>
                                 </div>
