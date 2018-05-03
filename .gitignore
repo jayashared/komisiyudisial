@@ -8,3 +8,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /nbproject/private/
+/assets/uploads/files/10b92-download.xls
+/assets/uploads/files/
+/assets/uploads/picture/
+/assets/uploads/
