@@ -18,6 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+ 	ini_set('display_errors', 1);
 	define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
@@ -38,7 +39,7 @@ if (defined('ENVIRONMENT'))
 
 		case 'testing':
 		case 'production':
-			error_reporting(0);
+			error_reporting(1);
 		break;
 
 		default:
