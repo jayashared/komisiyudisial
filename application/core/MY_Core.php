@@ -8,7 +8,7 @@ class MY_Core extends CI_Controler {
 		$config['base_url'] = $pag["url"];
 		$config['total_rows'] = $pag["total_rows"];
 		$config['per_page'] = $pag["per_page"]; 
-		$config['page_query_string'] = TRUE;
+		$config['page_query_string'] = false;
 		$config['use_page_numbers'] = TRUE;
 		$config['query_string_segment'] = "page";
 		$config['num_tag_open'] = '<li>';

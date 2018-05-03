@@ -1,62 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<title>404 Page Not Found</title>
-<style type="text/css">
-
-::selection{ background-color: #E13300; color: white; }
-::moz-selection{ background-color: #E13300; color: white; }
-::webkit-selection{ background-color: #E13300; color: white; }
-
+<title>404 - Error:404</title>
+<link rel="shortcut icon" href="grd.ico">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
 body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
+	background-color: #113B85;
 }
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
+.style1 {
+	font-size: 36px;
+	color: #FFFFFF;
 }
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
+.style2 {
+	font-size: 24px;
+	color: #FFFFFF;
 }
 
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
+.style3 {color: ffb401}
 
-#container {
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	-webkit-box-shadow: 0 0 8px #D0D0D0;
-}
-
-p {
-	margin: 12px 15px 12px 15px;
-}
-</style>
-</head>
+-->
+</style></head>
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
-	</div>
+<div align="center" class="style1">
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>Artikel Yang Anda Cari Tidak Ditemukan</p>
+  <p class="style2">Silahkan Kembali Ke <a href="/frontend" class="style3">Home</a></p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</div>
 </body>
 </html>
+
+</BODY>
+</HTML>

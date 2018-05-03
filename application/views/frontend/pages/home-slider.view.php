@@ -19,8 +19,6 @@
 	#right-slider ul li a { color:#FFF; font-size:14px;}
 </style>
 
-<!-- bjqs.css contains the *essential* css needed for the slider to work -->
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/slider/bjqs.css">
 
 <!-- demo.css contains additional styles used to set up this demo page - not required for the slider --> 
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/slider/demo.css">
@@ -60,13 +58,16 @@
     </div>
     
     <div id="right-slider" class="col-md-3">
-        <div  style="background:#669933; height:350px;" class="col-md-12">
-            <div class="title-box" style="color:#FFF; font-size:18px; padding-top:10px;"><i class="fa fa-info-circle"></i> Layanan Informasi Publik</div>
+        <div  style="background:#669933; height:380px;" class="col-md-12">
+            <div class="title-box" style="color:#FFF; font-size:18px; margin-bottom:20px; padding-top:5px;"> <strong><?php echo $sess=="id"?"Layanan KY":"KY Services"; ?></strong></div>
             <ul class="">
-                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/selection_of_supreme_court_justice">Informasi Seleksi CHA</a></li>
+            	<li class=""><a href="http://ppid.komisiyudisial.go.id/" target="_blank">Layanan Informasi Publik (PPID)</a></li>
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/selection_of_supreme_court_justice">Informasi Rekrutmen Hakim</a></li>
                 <li class=""><a href="<?php echo base_url() ?>frontend/static_content/behavioural_surveillance_judge">Informasi Pengawasan Perilaku Hakim</a></li>
-                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/financial_statements_and_planning">Laporan Keuangan dan Perencanaan</a></li>
-                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/research_result">Hasil Penelitian Komisi Yudisial</a></li>
+                <li class=""><a href="http://pkh.komisiyudisial.go.id/"target="_blank">Peningkatan Kapasitas Hakim</a></li>
+                <li class=""><a href="<?php echo base_url() ?>frontend/static_content/financial_statements_and_planning">Keuangan dan Perencanaan</a></li>
+		<li class=""><a href="http://jurnal.komisiyudisial.go.id/" target="_blank">Jurnal Yudisial</a></li>
+                <li class=""><a href="http://wbs.komisiyudisial.go.id/" target="_blank">Whistle Blowing System</a></li>
             	<li>
                 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
@@ -94,7 +95,6 @@
 </div>
 </div>
 
-
 <script>
 	var winH = $(document).height();
 	var winW = $(document).width();
@@ -110,11 +110,11 @@
 	}
 	else
 	{
-		sH = "350";
+		sH = "380";
 		sW = "100%";
 	}
 	
-	
+	//alert(sW)
 	
 	jQuery(document).ready(function($) {
 	

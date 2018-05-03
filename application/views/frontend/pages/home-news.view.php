@@ -19,6 +19,7 @@
       <a href="<?php echo base_url() ?>frontend/news_detail/<?php echo $row->id_news ?>/<?php echo $sess=="id"?SEO($row->title_id):SEO($row->title_en); ?>" class="banner">
 		<img src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->picture ?>" width="253" height="158" alt="">
         <h2 class="title"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></h2>
+        <div class="date"><?php echo TglOnlyIndo($row->date) ?></div>
 		<div class="description">
         	<?php echo PotongKata($sess=="id"?$row->text_id:$row->text_en, 50); ?>
         </div>

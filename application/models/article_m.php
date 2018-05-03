@@ -13,7 +13,7 @@ class Article_m  extends CI_Model  {
 		$this->sess = $this->session->userdata("lang");
     }
 	
-	function get_latest_article($limit = 5)
+	function get_latest_article($limit = 4)
 	{
 		$this->db->limit($limit);
 		$this->db->order_by("id_article desc");

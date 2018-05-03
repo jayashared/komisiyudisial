@@ -97,4 +97,35 @@ class News_m  extends CI_Model  {
 		$query = $this->db->get($this->table_tag_trans);
 		return $query->result();
 	}
+	
+	public function update($data=NULL, $where=NULL)
+	{
+		if( !empty($where) )
+			return $this->db->update($this->table_name, $data, $where);
+	}
+	
+	public function linked_news($id_news = NULL)
+	{
+		$sql = "
+			select		*
+			from		tbl_news z
+			where		z.id_news in
+			(
+						select	y.id_news
+						from		tbl_news_tag_trans y
+						where		y.id_news_tag in
+						(
+									select	x.id_news_tag
+									from		tbl_news_tag_trans x
+									where		x.id_news = '" . $id_news . "'
+						)
+			) and		z.id_news != '" . $id_news . "'
+			order by	z.date desc
+			limit 10
+			
+		";
+		$query = $this->db->query( $sql );
+		$result = $query->result();
+		return $result;
+	}
 }

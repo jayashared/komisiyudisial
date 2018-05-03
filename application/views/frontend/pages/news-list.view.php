@@ -27,7 +27,7 @@
 			  <img class="col-md-3 col-sm-12 col-xs-12" src="<?php echo base_url() ?>assets/uploads/picture/<?php echo $row->picture ?>" alt="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" title="<?php echo $sess=="id"?$row->title_id:$row->title_en; ?>" width="200">
 			  <?php } ?>
               <div class="meta">
-				<span class="time"><?php echo TglOnlyIndo($row->date) ?></span> | 
+				<span class="time"><?php echo TglIndo($row->date) ?> WIB</span> | 
                 <span class="meta">
 					<?php echo $sess=="id"?"Kategori":"Categori"; ?>: 
 					<?php

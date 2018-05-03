@@ -16,14 +16,15 @@
   </header>
   <div class="container">
     <div class="row">
-      <div class="content blog blog-post col-sm-12 col-md-12">
+      <div class="content blog blog-post col-sm-9 col-md-9">
 		<article class="post">
 		  <div class="entry-content">
           	<?php echo $sess=="id"?$text_id:$text_en; ?>
 		  </div>
 		</article><!-- .post -->
-		
       </div><!-- .content -->
+      
+      <?php $this->load->view("frontend/pages/static-content-sidebar.view.php") ?>
 	  
     </div>
   </div><!-- .container -->

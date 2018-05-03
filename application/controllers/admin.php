@@ -34,6 +34,11 @@ class Admin extends CI_Controller {
 		$this->data = $data;
 	}
 	
+	public function alter_table_contact(){
+		$this->load->model("global_m");
+		$this->global_m->alter_table_contact();
+	}
+	
 	public function _is_member_in()
 	{
 		return $this->session->userdata("log_in");
@@ -80,7 +85,35 @@ class Admin extends CI_Controller {
 	{
 		return $this->data;
 	}
-
+	
+	public function get_path_picture()
+	{
+		$this->load->model("global_m");
+		$path = $this->global_m->get_path_picture();
+		return $path;
+	}
+	
+	public function get_path_file()
+	{
+		$this->load->model("global_m");
+		$path = $this->global_m->get_path_file();
+		return $path;
+	}
+	
+	public function get_url_picture()
+	{
+		$this->load->model("global_m");
+		$path = $this->global_m->get_download_url("picture_url");
+		return $path;
+	}
+	
+	public function get_url_file()
+	{
+		$this->load->model("global_m");
+		$path = $this->global_m->get_download_url("file_url");
+		return $path;
+	}
+	
 	public function index()
 	{
 		$this->agenda();
@@ -99,7 +132,8 @@ class Admin extends CI_Controller {
 			
 			$crud->set_relation_n_n('tag', 'tbl_news_tag_trans', 'tbl_news_tag', 'id_news', 'id_news_tag','news_tag_id');
 			
-			$crud->set_field_upload('picture','assets/uploads/picture');
+			$crud->set_custom_download_url($this->get_url_picture());
+			$crud->set_field_upload('picture',$this->get_path_picture());
 			
 			$crud->required_fields('date', 'title_id', 'title_en', 'text_id', 'text_en');
 			
@@ -222,6 +256,34 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	
+	public function global_data()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_global');
+			$crud->set_subject('Golbal');
+			
+			$crud->required_fields('name');
+			
+			$crud->fields('name', 'value_varchar', 'value_text');
+			$crud->columns('name', 'value_varchar', 'value_text');
+
+			$crud->unset_read();
+			$crud->order_by('name','asc');
+			
+			$news_tag = $this->get_sitemap();
+			
+			$output = $crud->render($news_tag);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Exception $e)
+		{
+			show_error($e-getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+	
 	public function announcement()
 	{
 		try{
@@ -232,7 +294,8 @@ class Admin extends CI_Controller {
 			
 			$crud->set_relation('modified_by','tbl_user','email');
 			
-			$crud->set_field_upload('file','assets/uploads/files');
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('file',$this->get_path_file());
 			
 			$crud->required_fields('title_id', 'title_en', 'expired_date');
 			
@@ -276,7 +339,10 @@ class Admin extends CI_Controller {
 
 			$crud->set_table('tbl_konten_statis');
 			$crud->set_subject('Konten Statis');
-			$crud->set_field_upload('gambar','assets/uploads/gambar');
+			
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('gambar',$this->get_path_picture());
+			
 			$crud->required_fields('judul', 'deskripsi');
 			$crud->fields('judul', 'deskripsi', 'gambar');
 			$crud->columns('judul', 'deskripsi');
@@ -401,8 +467,8 @@ class Admin extends CI_Controller {
 			$crud->required_fields('name', 'description', 'title_id', 'title_en', 'url');
 			$crud->unique_fields('sitemap_code','name');
 			
-			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'modified_by', 'modified_date');
-			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'modified_by', 'modified_date');
+			$crud->add_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'external_link', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_parent', 'sitemap_code', 'name', 'description', 'title_id', 'title_en', 'url', 'sort_no', 'external_link', 'modified_by', 'modified_date');
 			$crud->columns('sitemap_code', 'title_id', 'url', 'modified_by');
 			
 			$crud->display_as('title_id', 'Judul (Bahasa)')
@@ -412,6 +478,7 @@ class Admin extends CI_Controller {
 				 ->display_as('sort_no', 'No Urut')
 				 ->display_as('name', 'Nama')
 				 ->display_as('modified_by', 'Input / Edit Tanggal')
+				 ->display_as('id_parent', 'Sitemap Parent')
 				 ;
 
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
@@ -495,7 +562,9 @@ class Admin extends CI_Controller {
 			$crud->set_table('tbl_article');
 			$crud->set_subject('Artikel');
 			$crud->set_relation('modified_by','tbl_user','email');
-			$crud->set_field_upload('file','assets/uploads/files');
+			
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('file',$this->get_path_file());
 			
 			$crud->required_fields('title_id', 'title_en', 'text_id', 'text_en');
 			
@@ -594,7 +663,8 @@ class Admin extends CI_Controller {
 			
 			$crud->required_fields('laws_id', 'laws_en');
 			
-			$crud->set_field_upload('files','assets/uploads/files');
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('files', $this->get_path_file());
 			
 			$crud->add_fields('id_laws_category', 'laws_id', 'laws_en', 'files',  'modified_by', 'modified_date');
 			$crud->edit_fields('id_laws_category', 'laws_id', 'laws_en', 'files',  'modified_by', 'modified_date');
@@ -645,8 +715,11 @@ class Admin extends CI_Controller {
 			$crud->set_relation('id_publication_category','tbl_publication_category','title_id');
 				
 			
-			$crud->set_field_upload('cover','assets/uploads/picture');			
-			$crud->set_field_upload('file','assets/uploads/files');
+			$crud->set_custom_download_url($this->get_url_picture());
+			$crud->set_field_upload('cover',$this->get_path_picture());	
+			
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('file',$this->get_path_file());
 			
 			$crud->required_fields('id_publication_category', 'publication_date', 'expired_date', 'title_id','title_en');
 			
@@ -696,7 +769,8 @@ class Admin extends CI_Controller {
 			$crud->set_subject('Lelang');
 			$crud->set_relation('midified_by','tbl_user','email');
 			
-			$crud->set_field_upload('file','assets/uploads/files');
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('file',$this->get_path_file());
 			
 			$crud->required_fields('title_id','title_en');
 			
@@ -779,7 +853,7 @@ class Admin extends CI_Controller {
 		
 	}
 	
-	public function PersRelease()
+	public function persrelease()
 	{
 		try
 		{
@@ -788,7 +862,8 @@ class Admin extends CI_Controller {
 			$crud->set_subject('Pers Release');
 			$crud->set_relation('modified_by','tbl_user','email');
 			
-			$crud->set_field_upload('file','assets/uploads/files');
+			$crud->set_custom_download_url($this->get_url_file());
+			$crud->set_field_upload('file',$this->get_path_file());
 			
 			$crud->required_fields('title_id','title_en');
 			
@@ -837,7 +912,8 @@ class Admin extends CI_Controller {
 			
 			$crud->required_fields('picture', 'title_id','title_en');
 			
-			$crud->set_field_upload('picture', 'assets/uploads/picture');
+			$crud->set_custom_download_url($this->get_url_picture());
+			$crud->set_field_upload('picture', $this->get_path_picture());
 			
 			$crud->add_fields('picture', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
 			$crud->edit_fields('picture', 'title_id', 'title_en', 'text_id', 'text_en', 'modified_by', 'modified_date');
@@ -1022,6 +1098,36 @@ class Admin extends CI_Controller {
 		}
 	}
 	
+	public function gal_category()
+	{
+		try
+		{
+			$crud = new grocery_CRUD();
+			$crud->set_table('tbl_gallery_category');
+			$crud->set_subject('Gallery Category');
+
+			$crud->required_fields('gallery_category_id', 'gallery_category_en');
+			
+			$crud->fields('gallery_category_id', 'gallery_category_en');
+			$crud->columns('gallery_category_id', 'gallery_category_en');
+			
+			$crud->display_as('gallery_category_id', 'Kategori (Bahasa)')
+				 ->display_as('gallery_category_id', 'Kategori (English)')
+				 ;
+				 
+			$crud->unset_read();
+			$crud->order_by('id_gallery_category','desc');
+			
+			$news_category = $this->get_sitemap();
+			
+			$output = $crud->render($news_category);
+			
+			$this->load->view('admin/themes/default', $output);
+		}catch(Exception $e)
+		{
+			show_error($e-getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
 	
 	public function Gallery()
 	{
@@ -1031,13 +1137,15 @@ class Admin extends CI_Controller {
 			$crud->set_table('tbl_gallery');
 			$crud->set_subject('Gallery');
 			$crud->set_relation('modified_by','tbl_user','email');
+			$crud->set_relation('id_gallery_category','tbl_gallery_category','gallery_category_id');
 			
 			$crud->required_fields('picture', 'title_id','title_en');
 			
-			$crud->set_field_upload('picture', 'assets/uploads/picture');
+			$crud->set_custom_download_url($this->get_url_picture());
+			$crud->set_field_upload('picture', $this->get_path_picture());
 			
-			$crud->add_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
-			$crud->edit_fields('picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->add_fields('id_gallery_category', 'picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
+			$crud->edit_fields('id_gallery_category', 'picture', 'title_id', 'title_en','text_id', 'text_en', 'modified_by', 'modified_date');
 			
 			$crud->display_as('picture','Gambar')
 				 ->display_as('title_id','Judul (Bahasa)')
@@ -1046,8 +1154,9 @@ class Admin extends CI_Controller {
 				 ->display_as('text_en','Isi (English)')
 				 ->display_as('modified_by', 'Input / Edit oleh')
 				 ->display_as('modified_date', 'Input / Edit Tanggal')
+				 ->display_as('id_gallery_category', 'Kategori')
 				 ;
-			$crud->columns('title_id', 'title_en', 'picture', 'modified_by');
+			$crud->columns('id_gallery_category', 'title_id', 'title_en', 'picture', 'modified_by');
 			
 			$crud->callback_before_update(array($this,'get_change_by_callback'));
 			$crud->callback_before_insert(array($this,'get_change_by_callback'));
@@ -1078,10 +1187,11 @@ class Admin extends CI_Controller {
 			$crud->set_subject('Konfigurasi Email');
 			$crud->set_relation('modified_by','tbl_user','email');
 			
-			$crud->required_fields('smtp_host', 'smtp_user', 'smtp_pass');
+			//$crud->required_fields('smtp_host', 'smtp_user', 'smtp_pass');
 			
 			$crud->fields('useragent', 'protocol', 'mailpath', 'smtp_host', 'smtp_user', 'name', 'smtp_pass', 
-						'smtp_port', 'smtp_timeout', 'wordwrap', 'wrapchars', 'mailtype', 'charset', 'validate', 
+						'smtp_port', 'smtp_timeout', 
+						'wordwrap', 'wrapchars', 'mailtype', 'charset', 'validate', 
 						'priority', 'crlf', 'newline', 'bcc_batch_mode', 'bcc_batch_size', 
 						'subjek', 'format_email_balasan', 
 						'subjek_lupa_password', 'format_lupa_password',
@@ -1130,10 +1240,14 @@ class Admin extends CI_Controller {
 		$dc = $this->email_m->get_config();
 		$r = isset( $dc[0] )?$dc[0]:"";
 		
+		$config = array();
+		
 		if( isset($r->protocol) and !empty($r->protocol))
 			$config['protocol'] = $r->protocol;
 		if( isset($r->mailpath) and !empty($r->mailpath))
 			$config['mailpath'] = $r->mailpath;
+		if( isset($r->smtp_crypto) and !empty($r->smtp_crypto))
+			$config['smtp_crypto'] = $r->smtp_crypto;
 		if( isset($r->charset) and !empty($r->charset))
 			$config['charset'] = $r->charset;
 		if( isset($r->wordwrap) and !empty($r->wordwrap))
@@ -1187,7 +1301,10 @@ class Admin extends CI_Controller {
 		$message = str_replace('{subjek}', $subject, $message);
 		$message = str_replace('{jawaban}', $answer, $message);
 		
-		$this->email->initialize( $this->get_email_config() );
+		$config = $this->get_email_config();
+
+		if(!empty($config))
+			$this->email->initialize( $config );
 		
 		if( isset($to) and !empty($to) )
 		{
@@ -1198,10 +1315,12 @@ class Admin extends CI_Controller {
 			
 			if( $this->email->send() )
 			{
+				//echo $this->email->print_debugger();
 				return true;
 			}
 			else
 			{
+				//echo $this->email->print_debugger();
 				return false;
 			}
 		}
@@ -1251,7 +1370,7 @@ class Admin extends CI_Controller {
 			$crud->change_field_type('subject','readonly');
 			$crud->change_field_type('message','readonly');
 			
-			$crud->change_field_type('is_reply','readonly');
+			//$crud->change_field_type('is_reply','readonly');
 			$crud->change_field_type('modified_by','readonly');
 			$crud->change_field_type('modified_date','readonly');
 	
@@ -1432,9 +1551,9 @@ class Admin extends CI_Controller {
 	public function get_alert($info)
 	{
 		if( $info == "success" )
-		return '<div class="alert alert-success" role="alert"><b>Berhasil!</b> Data telah tersimpan</div>';
+			return '<div class="alert alert-success" role="alert"><b>Berhasil!</b> Data telah tersimpan</div>';
 		else
-		return '<div class="alert alert-danger" role="alert"><b>Gagal!</b> Data tidak tersimpan</div>';
+			return '<div class="alert alert-danger" role="alert"><b>Gagal!</b> Data tidak tersimpan</div>';
 	}
 	
 }

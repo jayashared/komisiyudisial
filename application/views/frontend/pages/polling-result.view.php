@@ -1,6 +1,8 @@
+
 <?php
 	$sess = $this->session->userdata("lang");
 	$polling = isset($polling)?$polling:"";
+	
 ?>
 <section id="main">
   <header class="page-header">
@@ -9,6 +11,16 @@
     </div>	
   </header>
   <div class="container">
+  	
+    <?php
+    	$m = $this->session->flashdata('message');
+		if( !empty($m) ){
+	?>
+        <div class="alert <?= $m[0] ?>">
+            <?= $m[1] ?>
+        </div>
+    <?php } ?>
+  
     <?php
     	foreach( $polling as $row ){
 	?>
@@ -23,14 +35,22 @@
           	foreach( $row->option as $ro ){
 		  	$p = $i%2==0?"progress-bar-info":"progress-bar-warning";
 		  ?>
-              <div class="progress progress-striped active">
-                <div class="progress-bar <?php echo $p ?>" style="width: <?php echo $ro->result ?>%;"><?php echo $sess=="id"?$ro->polling_id:$ro->polling_en ?> <?php echo $ro->result ?>%</div>
+          	  <label><?php echo $sess=="id"?$ro->polling_id:$ro->polling_en ?> (<?php echo $ro->jumlah ?>)</label>
+              <div class="progress active">
+                <div class="progress-bar <?php echo $p ?>" style="width: <?php echo $ro->result ?>%;">
+					
+                </div>
               </div>
+              
           <?php 
 		  	$i++;
 		  } 
 		  ?>
-		</div>
+          <div align="right">
+          <label>Total Polling: <?= $total_polling ?></label>
+		  </div>
+        </div>
+        
     </div>
     <?php } ?>
         

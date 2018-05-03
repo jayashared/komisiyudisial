@@ -1,12 +1,13 @@
 <?php
-	$sess = $this->session->userdata("lang");
+	$sess = $this->session->userdata("lang"); 
 	$publication = isset($publication)?$publication:"";
 	$category_name = isset($category_name)?$category_name:"";
+	$title = $sess=="id"?$category_name[0]->title_id:$category_name[0]->title_en;
 ?>
 <section id="main">
   <header class="page-header">
     <div class="container">
-      <h1 class="title"><?php echo $sess=="id"?$category_name[0]->title_id:$category_name[0]->title_en ?></h1>
+      <h1 class="title"><?php echo $title ?></h1>
     </div>	
   </header>
   <div class="container">

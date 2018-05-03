@@ -38,6 +38,21 @@ class grocery_CRUD_Field_Types
 	 * Gets the field types of the main table.
 	 * @return array
 	 */
+	
+	/* SS Custom Function */
+	
+	var $custom_url;
+	
+	public function set_custom_download_url($url=NULL)
+	{
+		$this->custom_url = $url;
+	}
+	
+	public function get_custom_download_url()
+	{
+		return $this->custom_url;
+	}
+	
 	public function get_field_types()
 	{
 		if ($this->field_types !== null) {
@@ -1358,6 +1373,11 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 
 	protected function upload_file($state_info)
 	{
+		
+		//echo $state_info; exit;
+		//$state_info = urldecode($state_info);
+		
+
 		if(isset($this->upload_fields[$state_info->field_name]) )
 		{
 			if($this->callback_upload === null)
@@ -1444,16 +1464,18 @@ class grocery_CRUD_Model_Driver extends grocery_CRUD_Field_Types
 
 	protected function delete_file($state_info)
 	{
-
+		//echo $state_info; exit;
+		//$state_info = urldecode($state_info);
+		$fn = isset($_GET['fn'])?$_GET['fn']:'';
 		if(isset($state_info->field_name) && isset($this->upload_fields[$state_info->field_name]))
 		{
 			$upload_info = $this->upload_fields[$state_info->field_name];
 
-			if(file_exists("{$upload_info->upload_path}/{$state_info->file_name}"))
+			if(file_exists("{$upload_info->upload_path}/{$fn}")) // ganti sini
 			{
-				if( unlink("{$upload_info->upload_path}/{$state_info->file_name}") )
+				if( unlink("{$upload_info->upload_path}/{$fn}") )
 				{
-					$this->basic_model->db_file_delete($state_info->field_name, $state_info->file_name);
+					$this->basic_model->db_file_delete($state_info->field_name, $fn);
 
 					return true;
 				}
@@ -2656,8 +2678,15 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 
 		$this->set_css($this->default_css_path.'/jquery_plugins/file_upload/fileuploader.css');
 
-		$file_url = base_url().$field_info->extras->upload_path.'/'.$value;
+		//echo $this->get_custom_download_url(); exit;
 
+		$curl = $this->get_custom_download_url();
+		if( !empty($curl) )
+		//$file_url = base_url().$field_info->extras->upload_path.'/'.$value;
+			$file_url = $curl .'/' . $value; // ss
+		else
+			$file_url = base_url().$field_info->extras->upload_path.'/'.$value;
+		
 		$input .= "<div id='uploader_$unique' rel='$unique' class='grocery-crud-uploader' style='$uploader_display_none'></div>";
 		$input .= "<div id='success_$unique' class='upload-success-url' style='$file_display_none padding-top:7px;'>";
 		$input .= "<a href='".$file_url."' id='file_$unique' class='open-file";
@@ -5140,6 +5169,8 @@ class Grocery_CRUD extends grocery_CRUD_States
 	 */
 	public function set_field_upload($field_name, $upload_dir = '')
 	{
+		//exit;
+		//$upload_dir = urldecode($upload_dir);
 		$upload_dir = !empty($upload_dir) && substr($upload_dir,-1,1) == '/'
 						? substr($upload_dir,0,-1)
 						: $upload_dir;

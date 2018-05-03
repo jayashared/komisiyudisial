@@ -1,4 +1,5 @@
 <script src="<?php echo base_url() ?>assets/startbootstrap-sb-admin-2-1.0.5/bower_components/jquery/dist/jquery.js"></script>
+<!--<script src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/js/less.js"></script>-->
 <script src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/js/bootstrap.min.js"></script>
 <script src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/js/price-regulator/jshashtable-2.1_src.js"></script>
 <script src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/js/price-regulator/jquery.numberformatter-1.2.3.js"></script>

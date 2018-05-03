@@ -12,7 +12,7 @@ class Pers_release_m  extends CI_Model  {
 		$this->sess = $this->session->userdata("lang");
     }
 	
-	function get_latest_Pers_release($limit = 5)
+	function get_latest_Pers_release($limit = 4)
 	{
 		$this->db->limit($limit);
 		$this->db->order_by( $this->primary_keys . " desc");

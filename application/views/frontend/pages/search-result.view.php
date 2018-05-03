@@ -6,7 +6,7 @@
 <section id="main">
   <header class="page-header">
     <div class="container">
-      <h1 class="title"><?php echo $sess=="id"?"Hasil Pencarian":"Search Result" ?></h1>
+      <h1 class="title"><?php echo $sess=="id"?"Hasil Pencarian":"Search Result" ?>: <?= $this->session->userdata('query'); ?></h1>
     </div>	
   </header>
   <div class="container">

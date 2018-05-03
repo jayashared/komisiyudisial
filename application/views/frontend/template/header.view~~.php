@@ -12,7 +12,7 @@
 			</a>
 			<ul class="dropdown-menu">
 			  <li class="set-lang" data-lang="EN" id="lang-id"><a href="#">English</a></li>
-			  <li class="set-lang" data-lang="ID" id="lang-en"><a href="#">Indonesia</a></li>
+			  <li class="set-lang" data-lang="ID" id="lang-en"><a href="#">Bahasa</a></li>
 			</ul>
 		  </div>
           
@@ -43,7 +43,7 @@
 		<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
 		  <div class="logo">
 			<a href="<?php echo base_url() ?>frontend">
-			  <img src="<?php echo base_url() ?>assets/images/logo-ky.png" class="logo-img" alt=""/>
+			  <img src="<?php echo base_url() ?>assets/images/logo-ky.png" class="logo-img" alt="">
 			</a>
 		  </div>
 		</div><!-- .logo-box -->
@@ -62,15 +62,6 @@
 				  </svg>
 				</a>
 			  </div>
-              <div class="webmail-header hidden-600" title="Webmail">
-				<a href="https://mail.komisiyudisial.go.id" target="_blank">
-				  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-					<path class="path1" style="transform:scale(0.045);" d="M491.5 21.457h-407.001c-37.461 0-67.832 30.389-67.832 67.832v220.458c0 37.462 30.374 67.832 67.832 67.832h407.001c37.461 0 67.832-30.374 67.832-67.832v-220.458c0-37.445-30.374-67.832-67.832-67.832zM50.585 110.49l118.694 89.032-118.694 89.032v-178.063zM525.416 309.752c0 18.722-15.23 33.919-33.919 33.919h-407.001c-18.704 0-33.919-15.196-33.919-33.919l132.818-99.63 74.075 55.572c9.037 6.748 19.772 10.175 30.527 10.175 10.736 0 21.469-3.409 30.508-10.175l74.091-55.572 132.818 99.63zM525.416 288.553l-118.709-89.032 118.709-89.032v178.063zM308.332 252.126c-5.92 4.441-12.94 6.784-20.332 6.784s-14.431-2.358-20.35-6.784l-217.067-162.833c0-18.704 15.211-33.919 33.92-33.919h407.001c18.689 0 33.919 15.211 33.919 33.919l-217.084 162.833z"></path>
-</symbol>
-					<image src="<?php echo base_url() ?>assets/progressive_template_v2.2.6_stable/img/png-icons/search-icon.png" alt="" width="16" height="16" style="vertical-align: top;">
-				  </svg>
-				</a>
-			  </div>
 			</div><!-- .header-icons -->
 			<div class="primary">
 				<?php $this->load->view("frontend/template/nav.view.php") ?>
@@ -80,7 +71,7 @@
  
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>×</a>
-		  <form name="search-form" class="search-form" method="post" action="<?php echo base_url() ?>frontend/searching_process">
+		  <form name="search-form" class="search-form" method="get" action="<?php echo base_url() ?>frontend/searching_process">
 			<input class="search-string form-control" type="search" placeholder="<?php echo $sess=="id"?"Pencarian":"Search"; ?>" name="query">
 			<button class="search-submit">
 			  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">

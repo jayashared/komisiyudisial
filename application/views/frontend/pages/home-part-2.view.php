@@ -10,7 +10,7 @@
     </div>
     
     <div class="col-sm-12 col-md-4">
-      <?php $this->load->view("frontend/pages/home-article.view.php") ?>
+      <?php $this->load->view("frontend/pages/home-pers.view.php") ?>
     </div>
 
   </div>

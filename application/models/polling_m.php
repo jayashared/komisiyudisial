@@ -30,6 +30,13 @@ class Polling_m  extends CI_Model  {
 		return $query->result();
 	}
 	
+	function get_data_by_id($id_polling = null){
+		if( !empty($id_polling) )
+			$this->db->where( array("id_polling" => $id_polling) );
+		$query = $this->db->get($this->table_name);		
+		return $query->result();
+	}
+	
 	function insert_vote($data=NULL)
 	{
 		try{
@@ -45,6 +52,11 @@ class Polling_m  extends CI_Model  {
 	function get_result($id_polling=NULL)
 	{
 		$sql = 'select		
+									(
+											select	count(*)
+											from		tbl_polling_result pr
+											where		pr.id_polling = p.id_polling
+									) as jumlah,
 									round((
 										(
 											select	count(*)
@@ -69,7 +81,35 @@ class Polling_m  extends CI_Model  {
 		$result = $query->result();
 		
 		$total_semua = isset($result[0]->total_semua)?$result[0]->total_semua:0;
-		return $total_semua;
+		return $result;
+	}
+	
+	function get_polling_total_per_kategori($id_polling = null){
+		$sql = "
+			select 			count(*) as total
+			from 			
+							tbl_polling_result x
+			left join		tbl_polling y on y.id_polling = x.id_polling
+			where 			y.id_polling_category = '" . $id_polling . "' ;
+		";
+		$query = $this->db->query($sql);
+		
+		$result = $query->result();
+		return $result[0]->total;
+	}
+	
+	function check_polling_result($computerid=null, $id_polling_category=null){
+		$sql = "
+			select 		*
+			from 			
+						tbl_polling_result  x
+			left join	tbl_polling y on y.id_polling = x.id_polling
+			where 		x.computerid = '" . $computerid . "' and id_polling_category = " . $id_polling_category . " ;
+		";
+		
+		$query = $this->db->query($sql);
+		$result = $query->result();
+		return $result;
 	}
 	
 }

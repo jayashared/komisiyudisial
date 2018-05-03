@@ -1,3 +1,4 @@
+<?php $sess = $this->session->userdata("lang"); ?>
 <div class="container">
   <div class="features-promo carousel-box bottom-padding load overflow">
     <div class="title-box">
@@ -11,7 +12,7 @@
           <polygon fill-rule="evenodd" clip-rule="evenodd" fill="#fcfcfc" points="8,15.999 9,14.999 2,8 9,1.001 8,0.001 0,8 "></polygon>
         </svg>
       </a>
-      <h1 class="title">Layanan dan Informasi</h1>
+      <h1 class="title"><?php echo $sess=="id"?"Layanan dan Informasi":"Information and Service"; ?></h1>
     </div>
     <div class="clearfix"></div>
     

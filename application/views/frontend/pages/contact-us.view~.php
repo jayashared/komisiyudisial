@@ -16,7 +16,7 @@
   </header>
   <div class="container">
     <div class="row">
-      <div class="content blog blog-post col-sm-12 col-xs-12 col-md-12">
+      <div class="content blog blog-post col-sm-11 col-xs-11 col-md-11">
 		<article class="post">
 		  <div class="entry-content">
           		
@@ -24,20 +24,20 @@
                 
                 <hr />
                 
+                
+                <div class="map-box col-sm-12 col-md-12">
                     <div
-                      style="height: 400px; border:1px solid silver; padding:5px;"
+                      style="height: 276px;"
                       class="map-canvas"
-                      data-zoom="18"
-                      data-lat="-6.186128"
-                      data-lng="106.845758"
+                      data-zoom="6"
+                      data-lat="40.5289085"
+                      data-lng="-77.983526"
                       data-title="New York"
                       data-content="Support: +777 (100) 1234<br>
                       Sales manager: +777 (100) 4321<br>
-                      Director: +777 (100) 1243"
-                    >
-                    </div>
-                 
-                <hr />
+                      Director: +777 (100) 1243"></div>
+                  </div>
+                
                 
                 
                 <?php 
@@ -74,7 +74,6 @@
                     <label for="inputPassword3" class="col-md-2"><?php echo $sess=="id"?"Pesan":"Message"; ?></label>
                     <div class="col-md-10">
                       <textarea name="message" class="form-control"></textarea>
-                      <span class="help-block">Maksimal 500 Karakter</span>
                     </div>
                   </div>
 				  <div class="form-group">

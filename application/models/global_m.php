@@ -62,4 +62,44 @@ class Global_m  extends CI_Model  {
 		return $query->result();
 	}
 	
+	function get_path_picture()
+	{
+		$this->db->where(array("name"=>"picture_path"));
+		$query = $this->db->get("tbl_global");
+		$data = $query->result();
+		return $data[0]->value_varchar;
+	}
+	function get_path_file()
+	{
+		$this->db->where(array("name"=>"file_path"));
+		$query = $this->db->get("tbl_global");
+		$data = $query->result();
+		return $data[0]->value_varchar;
+	}
+	
+	function get_download_url($name=NULL)
+	{
+		$this->db->where(array("name"=>$name));
+		$query = $this->db->get("tbl_global");
+		$data = $query->result();
+		return $data[0]->value_varchar;
+	}
+	
+	function check_contact_us_computerid($computerid=null){
+		$sql = "
+			select 		*
+			from 		tbl_contact_us 
+			where 		DATE_FORMAT(modified_date, '%Y-%m-%d') = DATE_FORMAT(now(), '%Y-%m-%d')
+						and computerid = '" . $computerid . "'
+		";
+		$query = $this->db->query($sql);
+		$result = $query->result();
+		return $result;
+	}
+	
+	function alter_table_contact(){
+		$sql = 'ALTER TABLE tbl_contact_us ADD COLUMN computerid TEXT NOT NULL AFTER reply';
+		$query = $this->db->query($sql);
+	}
+	
 }

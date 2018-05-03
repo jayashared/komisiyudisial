@@ -24,7 +24,7 @@
                   <a href="#"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></a>
                   <ul class="sub">
                     <?php foreach( $row->sub_sitemap as $r ){ ?>
-                        <li><a href="<?php echo base_url() . $r->url ?>"><?php echo $sess=="id"?$r->title_id:$r->title_en; ?></a></li>
+                        <li><a href="<?php echo $r->external_link=="Y"?$r->url:base_url().$r->url ?>"><?php echo $sess=="id"?$r->title_id:$r->title_en; ?></a></li>
                         
                     <?php } ?>
                   </ul>
@@ -34,7 +34,7 @@
                 else
                 {
             ?>
-                <li class=""><a href="<?php echo base_url() . $row->url ?>"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></a></li>
+                <li class=""><a href="<?php echo $row->external_link=="Y"?$row->url:base_url().$row->url ?>"><?php echo $sess=="id"?$row->title_id:$row->title_en; ?></a></li>
             <?php
                 }
             ?>

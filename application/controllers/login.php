@@ -24,7 +24,7 @@ class Login extends CI_Controller {
 		);
 		
 		$result = $this->user_m->select($where);
-
+		//print_r($result);exit;
 		if( $result ):				
 			$sess_array = array(
 				 'id_user' => $result[0]->id_user,

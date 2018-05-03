@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   
@@ -32,5 +31,10 @@
     </div><!-- .page-box -->
     <?php $this->load->view("frontend/template/footer.view.php") ; ?>
     <div class="clearfix"></div>
+    
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-568a13693e97b3ef" async="async"></script>
+    
 </body>
 </html>
+

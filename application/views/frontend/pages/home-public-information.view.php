@@ -10,6 +10,6 @@
     <li class="list-group-item">Informasi SCHA</li>
     <li class="list-group-item">Informasi Pengawasan Perilaku Hakim</li>
     <li class="list-group-item">Laporan Keuangan dan Perencanaan</li>
-    <li class="list-group-item">Hasil Penelitian Komisi Yudisial</li>
+    <li class="list-group-item">Hasil Penelitian KY</li>
 </div>
 </div>

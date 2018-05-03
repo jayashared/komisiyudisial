@@ -11,7 +11,7 @@ class Agenda_m  extends CI_Model  {
 		$this->sess = $this->session->userdata("lang");
     }
 	
-	function get_latest_agenda($limit = 5)
+	function get_latest_agenda($limit = 4)
 	{
 		$this->db->limit($limit);
 		$this->db->order_by("id_agenda desc");

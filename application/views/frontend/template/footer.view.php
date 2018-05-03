@@ -18,7 +18,7 @@
 		  <nav>
 			<ul>
               <?php foreach( $rf->sub_sitemap as $rss ){ ?>
-			  <li><a href="<?php echo base_url() ?><?php echo $rss->url ?>"><?php echo $sess=="id"?$rss->title_id:$rss->title_en; ?></a></li>
+			  <li><a href="<?php echo $rss->external_link=="Y"?$rss->url:base_url().$rss->url ?>"><?php echo $sess=="id"?$rss->title_id:$rss->title_en; ?></a></li>
               <?php } ?>
 			</ul>
 		  </nav>
@@ -34,22 +34,8 @@
     <div class="container">
       <div class="row">
         <div class="copyright col-xs-12 col-sm-3 col-md-3">
-		  Copyright © Komisi Yudisial., 2015
+		  Copyright © Komisi Yudisial - 2017
 		</div>
-		
-        <div class="phone col-xs-6 col-sm-3 col-md-3">
-          <div class="footer-icon">
-			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-			  <path fill="#c6c6c6" d="M11.001,0H5C3.896,0,3,0.896,3,2c0,0.273,0,11.727,0,12c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2
-			   c0-0.273,0-11.727,0-12C13.001,0.896,12.105,0,11.001,0z M8,15c-0.552,0-1-0.447-1-1s0.448-1,1-1s1,0.447,1,1S8.553,15,8,15z
-				M11.001,12H5V2h6V12z"></path>
-			</svg>
-		  </div>
-          <strong class="title">Call Us:</strong> (021)3905876 
-          <strong>or</strong> (021)3905876 <br />
-          Fax. (021)3906215. PO BOX 2685 <br />
-          Email : kyri[at]komisiyudisial.go.id
-        </div>
 		
         <div class="address col-xs-6 col-sm-3 col-md-3">
           <div class="footer-icon">
@@ -69,6 +55,22 @@
           	Komisi Yudisial Republik Indonesia <br>
             Jl. Kramat Raya No. 57, Jakarta Pusat
         </div>
+        
+        <div class="phone col-xs-6 col-sm-3 col-md-3">
+          <div class="footer-icon">
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+			  <path fill="#c6c6c6" d="M11.001,0H5C3.896,0,3,0.896,3,2c0,0.273,0,11.727,0,12c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2
+			   c0-0.273,0-11.727,0-12C13.001,0.896,12.105,0,11.001,0z M8,15c-0.552,0-1-0.447-1-1s0.448-1,1-1s1,0.447,1,1S8.553,15,8,15z
+				M11.001,12H5V2h6V12z"></path>
+			</svg>
+		  </div>
+          <strong class="title">Call Us:</strong> (021)3905876 
+          <strong>or</strong> (021)3905876 <br />
+          Fax. (021)3906215. PO BOX 2685 <br />
+          Email : kyri[at]komisiyudisial.go.id
+        </div>
+		
+        
 		
         <div class="col-xs-12 col-sm-3 col-md-3">
           <a href="#" class="up">
